@@ -3,68 +3,73 @@ package snake;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.awt.event.*;
 
 /**
- *
  * @author Kevin Strong
  */
-class Game implements KeyListener {
+class Game extends KeyAdapter {
 
-    Random generator = new Random();
-    boolean[][] Border = new boolean[50][52];
-    boolean[][] snakeLocation = new boolean[50][52];
-    boolean[][] pellotLocation = new boolean[50][52];
-    boolean[][] snakeHead = new boolean[50][52];
-    int[] snakeOrder = new int[1000];
-    int snakeLength = 5;
-    lastPart end;
-    firstPart start;
-    boolean control = true;
-    GameFrame Frame;
-    int Score = 0;
-    int scoreFinal;
+    private static final int areaSize = 50;
+    private static final int heightPadding = 2;
+    private Random generator = new Random();
+    private boolean[][] Border = new boolean[areaSize][areaSize + heightPadding];
+    private boolean[][] snakeLocation = new boolean[areaSize][areaSize + heightPadding];
+    private boolean[][] pellotLocation = new boolean[areaSize][areaSize + heightPadding];
+    private int initialSnakeLength = 5;
+    private lastPart end;
+    private firstPart start;
+    private boolean control = true;
+    private int Score = 0;
+    private int scoreFinal;
     private int highScore;
-    public static Game instance;
-    int direction = 2;
+    private static Game instance;
+    private static DIRECTION direction = DIRECTION.RIGHT;
+
+    private enum DIRECTION {
+        UP,
+        DOWN,
+        RIGHT,
+        LEFT
+    }
 
     public Game() {
 
         instance = this;
-        Frame = new GameFrame(this);
-        buildBorder(Frame.getGraphics());
-        buildSnake(Frame.getGraphics());
+        GameFrame frame = new GameFrame(this);
+        buildBorder(frame.getGraphics());
+        buildSnake(frame.getGraphics());
         createNewPellot();
-        while (control == true) {
+        while (control) {
             delay();
-            buildBorder(Frame.getGraphics());
-            if (pellotLocation[getMoveLocationX()][getMoveLocationY()] == true) {
+            buildBorder(frame.getGraphics());
+            if (pellotLocation[getMoveLocationX()][getMoveLocationY()]) {
                 moveSnakePellot(getMoveLocationX(), getMoveLocationY());
             }
-            if (snakeLocation[getMoveLocationX()][getMoveLocationY()] == true || Border[getMoveLocationX()][getMoveLocationY()] == true) {
+            if (snakeLocation[getMoveLocationX()][getMoveLocationY()] || Border[getMoveLocationX()][getMoveLocationY()]) {
                 endGame();
             }
-            if (pellotLocation[getMoveLocationX()][getMoveLocationY()] == false && (snakeLocation[getMoveLocationX()][getMoveLocationY()] == false || Border[getMoveLocationX()][getMoveLocationY()] == false)) {
+            if (!pellotLocation[getMoveLocationX()][getMoveLocationY()] && (!snakeLocation[getMoveLocationX()][getMoveLocationY()] || !Border[getMoveLocationX()][getMoveLocationY()])) {
                 moveSnake(getMoveLocationX(), getMoveLocationY());
             }
         }
         System.out.println("The Game is Over, your score is " + getScore());
     }
 
-    public int getScore() {
+    private int getScore() {
         return Score;
     }
 
-    public void addScore(int x) {
+    //Some pellets may eventually increment your score by more than 1
+    @SuppressWarnings("SameParameterValue")
+    private void addScore(int x) {
         Score += x;
     }
 
     void Clean(Graphics g) {
-        for (int x = 0; x < 50; x++) {
-            for (int y = 0; y < 52; y++) {
-                if (Border[x][y] == false && pellotLocation[x][y] == false) {
+        for (int x = 0; x < areaSize; x++) {
+            for (int y = 0; y < areaSize + heightPadding; y++) {
+                if (!Border[x][y] && !pellotLocation[x][y]) {
                     g.setColor(Color.white);
                     g.fillRect(x * 10, y * 10, 10, 10);
                 }
@@ -79,7 +84,7 @@ class Game implements KeyListener {
         g.drawString("Score:" + getScore(), 450, 525);
     }
 
-    void endGame() {
+    private void endGame() {
         System.out.println("Your game is over!");
         control = false;
         scoreFinal = Score;
@@ -89,8 +94,8 @@ class Game implements KeyListener {
     }
 
     private void clearPellots() {
-        for (int x = 0; x < 50; x++) {
-            for (int y = 0; y < 50; y++) {
+        for (int x = 0; x < areaSize; x++) {
+            for (int y = 0; y < areaSize; y++) {
                 pellotLocation[x][y] = false;
             }
         }
@@ -102,15 +107,15 @@ class Game implements KeyListener {
         do {
 
             x = generator.nextInt(47) + 1;
-            y = generator.nextInt(47) + 1;            
-        } while (snakeLocation[x][y] == true);
+            y = generator.nextInt(47) + 1;
+        } while (snakeLocation[x][y]);
         pellotLocation[x][y] = true;
     }
 
     public void drawPellot(Graphics g) {
-        for (int x = 0; x < 50; x++) {
-            for (int y = 2; y < 52; y++) {
-                if (pellotLocation[x][y] == true) {
+        for (int x = 0; x < areaSize; x++) {
+            for (int y = 2; y < areaSize + heightPadding; y++) {
+                if (pellotLocation[x][y]) {
                     g.setColor(Color.BLUE);
                     g.fillRect(x * 10, y * 10, 10, 10);
                 }
@@ -127,16 +132,16 @@ class Game implements KeyListener {
 
     private void moveSnake(int a, int b) {
         int x = -1, y = -1;
-        if (snakeLocation[end.getX() - 1][end.getY()] == true) {
+        if (snakeLocation[end.getX() - 1][end.getY()]) {
             x = end.getX() - 1;
             y = end.getY();
-        } else if (snakeLocation[end.getX() + 1][end.getY()] == true) {
+        } else if (snakeLocation[end.getX() + 1][end.getY()]) {
             x = end.getX() + 1;
             y = end.getY();
-        } else if (snakeLocation[end.getX()][end.getY() - 1] == true) {
+        } else if (snakeLocation[end.getX()][end.getY() - 1]) {
             x = end.getX();
             y = end.getY() - 1;
-        } else if (snakeLocation[end.getX()][end.getY() + 1] == true) {
+        } else if (snakeLocation[end.getX()][end.getY() + 1]) {
             x = end.getX();
             y = end.getY() + 1;
         }
@@ -154,7 +159,7 @@ class Game implements KeyListener {
         g.fillRect(0, 0, 10, 500);
         g.fillRect(490, 0, 10, 500);
         g.fillRect(0, 490, 500, 10);
-        for (int x = 0; x < 50; x++) {
+        for (int x = 0; x < areaSize; x++) {
             Border[x][2] = true;
             Border[x][51] = true;
             Border[0][x + 2] = true;
@@ -163,12 +168,11 @@ class Game implements KeyListener {
     }
 
     public void buildSnake(Graphics g) {
-        snakeHead[10][5] = true;
-        for (int x = 0; x <= snakeLength; x++) {
+        for (int x = 0; x <= initialSnakeLength; x++) {
             snakeLocation[10 - x][5] = true;
             g.setColor(Color.red);
-            g.fillRect(100 - x * 10, 50, 10, 10);
-            if (x == snakeLength) {
+            g.fillRect(100 - x * 10, areaSize, 10, 10);
+            if (x == initialSnakeLength) {
                 end = new lastPart(10 - x, 5);
             }
             if (x == 0) {
@@ -179,9 +183,9 @@ class Game implements KeyListener {
     }
 
     public void drawSnake(Graphics g) {
-        for (int x = 0; x < 50; x++) {
-            for (int y = 0; y < 52; y++) {
-                if (snakeLocation[x][y] == true) {
+        for (int x = 0; x < areaSize; x++) {
+            for (int y = 0; y < areaSize + heightPadding; y++) {
+                if (snakeLocation[x][y]) {
                     g.setColor(Color.magenta);
                     g.fillRect(x * 10, y * 10, 10, 10);
                 }
@@ -191,66 +195,43 @@ class Game implements KeyListener {
 
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            direction = 1;
+            direction = DIRECTION.LEFT;
         }
         if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            direction = 2;
+            direction = DIRECTION.RIGHT;
         }
         if (e.getKeyCode() == KeyEvent.VK_UP) {
-            direction = 3;
+            direction = DIRECTION.UP;
         }
         if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-            direction = 4;
+            direction = DIRECTION.DOWN;
         }
-    }
-
-    public void keyReleased(KeyEvent e) {
-    }
-
-    public void keyTyped(KeyEvent e) {
-    }
-
-    public void mouseEntered(MouseEvent e) {
-    }
-
-    public void mouseExited(MouseEvent e) {
-    }
-
-    public void mousePressed(MouseEvent e) {
-    }
-
-    public void mouseReleased(MouseEvent e) {
-    }
-
-    public void mouseClicked(MouseEvent e) {
     }
 
     private int getMoveLocationX() {
+        int newLocation = start.getX();
         switch (direction) {
-            case 1:
-                return start.getX() - 1;
-            case 2:
-                return start.getX() + 1;
-            case 3:
-                return start.getX();
-            case 4:
-                return start.getX();
+            case LEFT:
+                newLocation -= 1;
+                break;
+            case RIGHT:
+                newLocation += 1;
+                break;
         }
-        return start.getX() + 1;
+        return newLocation;
     }
 
     private int getMoveLocationY() {
+        int newLocation = start.getY();
         switch (direction) {
-            case 1:
-                return start.getY();
-            case 2:
-                return start.getY();
-            case 3:
-                return start.getY() - 1;
-            case 4:
-                return start.getY() + 1;
+            case UP:
+                newLocation -= 1;
+                break;
+            case DOWN:
+                newLocation += 1;
+                break;
         }
-        return start.getY();
+        return newLocation;
     }
 
     public static Game getGame() {
@@ -262,7 +243,7 @@ class Game implements KeyListener {
         try {
             Thread.sleep(20);
         } catch (InterruptedException ex) {
-
+            System.out.println("Nap time interrupted! What happened!");
         }
 
     }
