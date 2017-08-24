@@ -4,11 +4,11 @@ package com.snake;
  *
  * @author KS70326
  */
-public class LastPart
+public class Tail
 {
     boolean[][] location=new boolean[50][52];
 
-    public LastPart(int a, int b)
+    public Tail(int a, int b)
     {
        location[a][b] = true;
     //   System.out.println("Making new end with locations of" + x+ " " + y);

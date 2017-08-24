@@ -1,7 +1,5 @@
 package com.display;
 
-import com.snake.FirstPart;
-import com.snake.LastPart;
 import com.snake.SnakeLocation;
 
 import java.awt.Color;
@@ -14,18 +12,16 @@ import java.awt.event.*;
  */
 public class Game extends KeyAdapter {
 
-    private static final int areaSize = 50;
-    private static final int heightPadding = 2;
+    public static final int areaSize = 50;
+    public static final int heightPadding = 2;
     private Random generator = new Random();
     private boolean[][] Border = new boolean[areaSize][areaSize + heightPadding];
-    private boolean[][] snakeLocation = new boolean[areaSize][areaSize + heightPadding];
     private boolean[][] pellotLocation = new boolean[areaSize][areaSize + heightPadding];
-    private int initialSnakeLength = 5;
-    private LastPart end;
-    private FirstPart start;
+    private SnakeLocation snakeLocation;
+    public static int initialSnakeLength = 5;
+
     private boolean control = true;
-    private int Score = 0;
-    private int scoreFinal;
+    private int currentScore = 0;
     private int highScore;
     private static Game instance;
     private static DIRECTION direction = DIRECTION.RIGHT;
@@ -39,10 +35,11 @@ public class Game extends KeyAdapter {
 
     public Game() {
 
+        snakeLocation = new SnakeLocation();
         instance = this;
         GameFrame frame = new GameFrame(this);
         buildBorder(frame.getGraphics());
-        buildSnake(frame.getGraphics());
+        drawSnake(frame.getGraphics());
         createNewPellot();
         while (control) {
             delay();
@@ -50,24 +47,24 @@ public class Game extends KeyAdapter {
             if (pellotLocation[getMoveLocationX()][getMoveLocationY()]) {
                 moveSnakePellot(getMoveLocationX(), getMoveLocationY());
             }
-            if (snakeLocation[getMoveLocationX()][getMoveLocationY()] || Border[getMoveLocationX()][getMoveLocationY()]) {
+            if (getSnakeLocation().getSnakeLocation()[getMoveLocationX()][getMoveLocationY()] || Border[getMoveLocationX()][getMoveLocationY()]) {
                 endGame();
             }
-            if (!pellotLocation[getMoveLocationX()][getMoveLocationY()] && (!snakeLocation[getMoveLocationX()][getMoveLocationY()] || !Border[getMoveLocationX()][getMoveLocationY()])) {
+            if (!pellotLocation[getMoveLocationX()][getMoveLocationY()] && (!getSnakeLocation().getSnakeLocation()[getMoveLocationX()][getMoveLocationY()] || !Border[getMoveLocationX()][getMoveLocationY()])) {
                 moveSnake(getMoveLocationX(), getMoveLocationY());
             }
         }
-        System.out.println("The Game is Over, your score is " + getScore());
+        System.out.println("The Game is Over, your score is " + getCurrentScore());
     }
 
-    private int getScore() {
-        return Score;
+    private int getCurrentScore() {
+        return currentScore;
     }
 
     //Future pellet types may eventually increment your score by more than 1
     @SuppressWarnings("SameParameterValue")
     private void addScore(int x) {
-        Score += x;
+        currentScore += x;
     }
 
     public void Clean(Graphics g) {
@@ -85,15 +82,14 @@ public class Game extends KeyAdapter {
         g.setColor(Color.white);
         g.fillRect(400, 500, 100, 75);
         g.setColor(Color.black);
-        g.drawString("Score:" + getScore(), 450, 525);
+        g.drawString("currentScore:" + getCurrentScore(), 450, 525);
     }
 
     private void endGame() {
         System.out.println("Your game is over!");
         control = false;
-        scoreFinal = Score;
-        if (scoreFinal > highScore) {
-            highScore = scoreFinal;
+        if (getCurrentScore() > highScore) {
+            highScore = getCurrentScore();
         }
     }
 
@@ -110,9 +106,9 @@ public class Game extends KeyAdapter {
         clearPellots();
         do {
 
-            x = generator.nextInt(47) + 1;
-            y = generator.nextInt(47) + 1;
-        } while (snakeLocation[x][y]);
+            x = generator.nextInt(areaSize - 3) + 1;
+            y = generator.nextInt(areaSize - 3) + 1;
+        } while (getSnakeLocation().getSnakeLocation()[x][y]);
         pellotLocation[x][y] = true;
     }
 
@@ -128,31 +124,31 @@ public class Game extends KeyAdapter {
     }
 
     private void moveSnakePellot(int x, int y) {
-        snakeLocation[x][y] = true;
-        start.newlocation(x, y);
+        getSnakeLocation().getSnakeLocation()[x][y] = true;
+        getSnakeLocation().getHead().newlocation(x, y);
         createNewPellot();
         addScore(1);
     }
 
     private void moveSnake(int a, int b) {
         int x = -1, y = -1;
-        if (snakeLocation[end.getX() - 1][end.getY()]) {
-            x = end.getX() - 1;
-            y = end.getY();
-        } else if (snakeLocation[end.getX() + 1][end.getY()]) {
-            x = end.getX() + 1;
-            y = end.getY();
-        } else if (snakeLocation[end.getX()][end.getY() - 1]) {
-            x = end.getX();
-            y = end.getY() - 1;
-        } else if (snakeLocation[end.getX()][end.getY() + 1]) {
-            x = end.getX();
-            y = end.getY() + 1;
+        if (getSnakeLocation().getSnakeLocation()[getSnakeLocation().getTail().getX() - 1][getSnakeLocation().getTail().getY()]) {
+            x = getSnakeLocation().getTail().getX() - 1;
+            y = getSnakeLocation().getTail().getY();
+        } else if (getSnakeLocation().getSnakeLocation()[getSnakeLocation().getTail().getX() + 1][getSnakeLocation().getTail().getY()]) {
+            x = getSnakeLocation().getTail().getX() + 1;
+            y = getSnakeLocation().getTail().getY();
+        } else if (getSnakeLocation().getSnakeLocation()[getSnakeLocation().getTail().getX()][getSnakeLocation().getTail().getY() - 1]) {
+            x = getSnakeLocation().getTail().getX();
+            y = getSnakeLocation().getTail().getY() - 1;
+        } else if (getSnakeLocation().getSnakeLocation()[getSnakeLocation().getTail().getX()][getSnakeLocation().getTail().getY() + 1]) {
+            x = getSnakeLocation().getTail().getX();
+            y = getSnakeLocation().getTail().getY() + 1;
         }
-        snakeLocation[end.getX()][end.getY()] = false;
-        end.newlocation(x, y);
-        snakeLocation[a][b] = true;
-        start.newlocation(a, b);
+        getSnakeLocation().getSnakeLocation()[getSnakeLocation().getTail().getX()][getSnakeLocation().getTail().getY()] = false;
+        getSnakeLocation().getTail().newlocation(x, y);
+        getSnakeLocation().getSnakeLocation()[a][b] = true;
+        getSnakeLocation().getHead().newlocation(a, b);
 
 
     }
@@ -171,25 +167,10 @@ public class Game extends KeyAdapter {
         }
     }
 
-    public void buildSnake(Graphics g) {
-        for (int x = 0; x <= initialSnakeLength; x++) {
-            snakeLocation[10 - x][5] = true;
-            g.setColor(Color.red);
-            g.fillRect(100 - x * 10, areaSize, 10, 10);
-            if (x == initialSnakeLength) {
-                end = new LastPart(10 - x, 5);
-            }
-            if (x == 0) {
-                start = new FirstPart(10, 5);
-            }
-
-        }
-    }
-
     public void drawSnake(Graphics g) {
         for (int x = 0; x < areaSize; x++) {
             for (int y = 0; y < areaSize + heightPadding; y++) {
-                if (snakeLocation[x][y]) {
+                if (getSnakeLocation().getSnakeLocation()[x][y]) {
                     g.setColor(Color.magenta);
                     g.fillRect(x * 10, y * 10, 10, 10);
                 }
@@ -213,7 +194,7 @@ public class Game extends KeyAdapter {
     }
 
     private int getMoveLocationX() {
-        int newLocation = start.getX();
+        int newLocation = getSnakeLocation().getHead().getX();
         switch (direction) {
             case LEFT:
                 newLocation -= 1;
@@ -226,7 +207,7 @@ public class Game extends KeyAdapter {
     }
 
     private int getMoveLocationY() {
-        int newLocation = start.getY();
+        int newLocation = getSnakeLocation().getHead().getY();
         switch (direction) {
             case UP:
                 newLocation -= 1;
@@ -250,5 +231,9 @@ public class Game extends KeyAdapter {
             System.out.println("Nap time interrupted! What happened!");
         }
 
+    }
+
+    public SnakeLocation getSnakeLocation() {
+        return snakeLocation;
     }
 }

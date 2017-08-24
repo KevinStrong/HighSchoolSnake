@@ -4,11 +4,11 @@ package com.snake;
  *
  * @author KS70326
  */
-public class FirstPart
+public class Head
 {
     boolean[][] location=new boolean[50][52];
 
-    public FirstPart(int x, int y)
+    public Head(int x, int y)
     {
        location[x][y] = true;
     //   System.out.println("Making new start with locations of" + x+ " " + y);

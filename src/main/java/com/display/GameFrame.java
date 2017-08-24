@@ -1,7 +1,5 @@
 package com.display;
 
-import com.display.Game;
-
 import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.event.KeyListener;
@@ -16,8 +14,6 @@ import static com.display.Game.*;
  * @author KS70326
  */
 public class GameFrame extends Frame {
-
-    int q = 1;
 
     public GameFrame(KeyListener l) {
 
@@ -48,18 +44,11 @@ public class GameFrame extends Frame {
     }
 
     public void draw(Graphics g) {
-        double k = 0;
-        //while (true) {
-            if (q == 1) {
-                getGame().buildSnake(g);
-                q++;
-            }
-            getGame().Clean(g);
-            getGame().buildBorder(g);
-            getGame().drawSnake(g);
-            getGame().drawPellot(g);
-            getGame().drawScore(g);
-            //     repaint();
+        getGame().Clean(g);
+        getGame().buildBorder(g);
+        getGame().drawSnake(g);
+        getGame().drawPellot(g);
+        getGame().drawScore(g);
         g.dispose();
     }
 
