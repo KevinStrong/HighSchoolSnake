@@ -1,12 +1,15 @@
-package snake;
+package com.display;
+
+import com.display.Game;
 
 import java.awt.Frame;
 import java.awt.Graphics;
-import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferStrategy;
+
+import static com.display.Game.*;
 
 /**
  *
@@ -48,14 +51,14 @@ public class GameFrame extends Frame {
         double k = 0;
         //while (true) {
             if (q == 1) {
-                Game.getGame().buildSnake(g);
+                getGame().buildSnake(g);
                 q++;
             }
-            Game.getGame().Clean(g);
-            Game.getGame().buildBorder(g);
-            Game.getGame().drawSnake(g);
-            Game.getGame().drawPellot(g);
-            Game.getGame().drawScore(g);
+            getGame().Clean(g);
+            getGame().buildBorder(g);
+            getGame().drawSnake(g);
+            getGame().drawPellot(g);
+            getGame().drawScore(g);
             //     repaint();
         g.dispose();
     }

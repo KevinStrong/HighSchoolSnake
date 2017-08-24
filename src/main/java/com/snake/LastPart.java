@@ -1,14 +1,14 @@
-package snake;
+package com.snake;
 
 /**
  *
  * @author KS70326
  */
-class lastPart 
+public class LastPart
 {
     boolean[][] location=new boolean[50][52];
 
-    public lastPart(int a,int b) 
+    public LastPart(int a, int b)
     {
        location[a][b] = true;
     //   System.out.println("Making new end with locations of" + x+ " " + y);
@@ -29,7 +29,7 @@ class lastPart
         int k = -1;
         for(int x=0;x<50;x++)
            for(int y=0;y<52;y++)
-               if(location[x][y]==true)
+               if(location[x][y])
                     k = x;
         return k;
     }
@@ -38,7 +38,7 @@ class lastPart
         int k = -1;
         for(int x=0;x<50;x++)
            for(int y=0;y<52;y++)
-               if(location[x][y]==true)
+               if(location[x][y])
                     k = y;
         return k;
     }

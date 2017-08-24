@@ -1,4 +1,8 @@
-package snake;
+package com.display;
+
+import com.snake.FirstPart;
+import com.snake.LastPart;
+import com.snake.SnakeLocation;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -8,7 +12,7 @@ import java.awt.event.*;
 /**
  * @author Kevin Strong
  */
-class Game extends KeyAdapter {
+public class Game extends KeyAdapter {
 
     private static final int areaSize = 50;
     private static final int heightPadding = 2;
@@ -17,8 +21,8 @@ class Game extends KeyAdapter {
     private boolean[][] snakeLocation = new boolean[areaSize][areaSize + heightPadding];
     private boolean[][] pellotLocation = new boolean[areaSize][areaSize + heightPadding];
     private int initialSnakeLength = 5;
-    private lastPart end;
-    private firstPart start;
+    private LastPart end;
+    private FirstPart start;
     private boolean control = true;
     private int Score = 0;
     private int scoreFinal;
@@ -60,13 +64,13 @@ class Game extends KeyAdapter {
         return Score;
     }
 
-    //Some pellets may eventually increment your score by more than 1
+    //Future pellet types may eventually increment your score by more than 1
     @SuppressWarnings("SameParameterValue")
     private void addScore(int x) {
         Score += x;
     }
 
-    void Clean(Graphics g) {
+    public void Clean(Graphics g) {
         for (int x = 0; x < areaSize; x++) {
             for (int y = 0; y < areaSize + heightPadding; y++) {
                 if (!Border[x][y] && !pellotLocation[x][y]) {
@@ -77,7 +81,7 @@ class Game extends KeyAdapter {
         }
     }
 
-    void drawScore(Graphics g) {
+    public void drawScore(Graphics g) {
         g.setColor(Color.white);
         g.fillRect(400, 500, 100, 75);
         g.setColor(Color.black);
@@ -173,10 +177,10 @@ class Game extends KeyAdapter {
             g.setColor(Color.red);
             g.fillRect(100 - x * 10, areaSize, 10, 10);
             if (x == initialSnakeLength) {
-                end = new lastPart(10 - x, 5);
+                end = new LastPart(10 - x, 5);
             }
             if (x == 0) {
-                start = new firstPart(10, 5);
+                start = new FirstPart(10, 5);
             }
 
         }

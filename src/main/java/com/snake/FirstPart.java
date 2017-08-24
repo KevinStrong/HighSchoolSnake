@@ -1,14 +1,14 @@
-package snake;
+package com.snake;
 
 /**
  *
  * @author KS70326
  */
-class firstPart 
+public class FirstPart
 {
     boolean[][] location=new boolean[50][52];
 
-    public firstPart(int x,int y) 
+    public FirstPart(int x, int y)
     {
        location[x][y] = true;
     //   System.out.println("Making new start with locations of" + x+ " " + y);
@@ -29,7 +29,7 @@ class firstPart
         int k = -1;
         for(int x=0;x<50;x++)
            for(int y=0;y<52;y++)
-               if(location[x][y]==true)
+               if(location[x][y])
                     k = x;
         return k;
     }
@@ -38,7 +38,7 @@ class firstPart
         int k = -1;
         for(int x=0;x<50;x++)
            for(int y=0;y<52;y++)
-               if(location[x][y]==true)
+               if(location[x][y])
                     k = y;
         return k;
     }
