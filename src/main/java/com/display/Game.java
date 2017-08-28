@@ -41,21 +41,24 @@ public class Game extends KeyAdapter {
         createNewPellot();
         while (control) {
             delay();
-            buildBorder(frame.getGraphics());
-            if (currentPellot.atLocation(getNextHorizontalLocation(), getNextVerticalLocation())) {
-                moveSnakePellot(getNextHorizontalLocation(), getNextVerticalLocation());
-            }
-            if (checkCollision()) {
+            if (isCollision()) {
                 endGame();
             }
-            if (!currentPellot.atLocation(getNextHorizontalLocation(), getNextVerticalLocation()) && (!getSnakeLocation().getSnakeLocation()[getNextHorizontalLocation()][getNextVerticalLocation()] || !Border[getNextHorizontalLocation()][getNextVerticalLocation()])) {
+            if (isEatingPellot()) {
+                moveSnakePellot();
+            } else {
                 moveSnake(getNextHorizontalLocation(), getNextVerticalLocation());
             }
+
         }
         System.out.println("The Game is Over, your score is " + getCurrentScore());
     }
 
-    private boolean checkCollision() {
+    private boolean isEatingPellot() {
+        return currentPellot.atLocation(getNextHorizontalLocation(), getNextVerticalLocation());
+    }
+
+    private boolean isCollision() {
         return getSnakeLocation().getSnakeLocation()[getNextHorizontalLocation()][getNextVerticalLocation()] || Border[getNextHorizontalLocation()][getNextVerticalLocation()];
     }
 
@@ -110,9 +113,10 @@ public class Game extends KeyAdapter {
         }
     }
 
-    private void moveSnakePellot(int x, int y) {
-        getSnakeLocation().getSnakeLocation()[x][y] = true;
-        getSnakeLocation().getHead().newlocation(x, y);
+    private void moveSnakePellot() {
+        //Currently moveSnakePellot also moves the snake (but omits moving the tail, that is how the snake grows!)
+        getSnakeLocation().getSnakeLocation()[getNextHorizontalLocation()][getNextVerticalLocation()] = true;
+        getSnakeLocation().getHead().newlocation(getNextHorizontalLocation(), getNextVerticalLocation());
         createNewPellot();
         addScore(1);
     }
