@@ -1,7 +1,7 @@
 package com.display;
 
 import com.things.Border;
-import com.things.Pellot;
+import com.things.Pellet;
 import com.things.snake.SnakeLocation;
 
 import java.awt.Color;
@@ -15,8 +15,8 @@ public class Game extends KeyAdapter {
 
     public static final int areaSize = 50;
     public static final int heightPadding = 2;
-    Border border;
-    private Pellot currentPellot;
+    private Border border;
+    private Pellet currentPellet;
     protected SnakeLocation snakeLocation;
 
     private boolean control = true;
@@ -66,7 +66,7 @@ public class Game extends KeyAdapter {
     }
 
     private boolean isEatingPellot() {
-        return currentPellot.atLocation(getNextHorizontalLocation(), getNextVerticalLocation());
+        return currentPellet.atLocation(getNextHorizontalLocation(), getNextVerticalLocation());
     }
 
     private boolean isCollision() {
@@ -99,13 +99,13 @@ public class Game extends KeyAdapter {
     }
 
     private void createNewPellot() {
-        currentPellot = new Pellot();
+        currentPellet = new Pellet();
     }
 
     public void drawPellot(Graphics g) {
         for (int x = 0; x < areaSize; x++) {
             for (int y = 2; y < areaSize + heightPadding; y++) {
-                if (currentPellot.atLocation(x, y)) {
+                if (currentPellet.atLocation(x, y)) {
                     g.setColor(Color.BLUE);
                     g.fillRect(x * 10, y * 10, 10, 10);
                 }

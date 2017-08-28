@@ -5,11 +5,11 @@ import java.util.Random;
 import static com.display.Game.areaSize;
 import static com.display.Game.heightPadding;
 
-public class Pellot {
+public class Pellet {
     private static Random generator = new Random();
     boolean[][] location;
 
-    public Pellot() {
+    public Pellet() {
         location = new boolean[areaSize][areaSize + heightPadding];
         int x = generator.nextInt(areaSize - 3) + 1;
         int y = generator.nextInt(areaSize - 3) + 1;
