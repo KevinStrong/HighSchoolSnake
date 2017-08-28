@@ -8,12 +8,10 @@ import static com.display.Game.heightPadding;
 
 public class Pellet {
     private static Random generator = new Random();
-    boolean[][] location;
     int x;
     int y;
 
     public Pellet() {
-        location = new boolean[areaSize][areaSize + heightPadding];
         x = generator.nextInt(areaSize - 3) + 1;
         y = generator.nextInt(areaSize - 3) + 1;
     }
