@@ -5,7 +5,6 @@ import com.things.snake.SnakeLocation;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.util.Random;
 import java.awt.event.*;
 
 /**
@@ -39,22 +38,25 @@ public class Game extends KeyAdapter {
         instance = this;
         GameFrame frame = new GameFrame(this);
         buildBorder(frame.getGraphics());
-        drawSnake(frame.getGraphics());
         createNewPellot();
         while (control) {
             delay();
             buildBorder(frame.getGraphics());
-            if (currentPellot.atLocation(getMoveLocationX(), getMoveLocationY())) {
-                moveSnakePellot(getMoveLocationX(), getMoveLocationY());
+            if (currentPellot.atLocation(getNextHorizontalLocation(), getNextVerticalLocation())) {
+                moveSnakePellot(getNextHorizontalLocation(), getNextVerticalLocation());
             }
-            if (getSnakeLocation().getSnakeLocation()[getMoveLocationX()][getMoveLocationY()] || Border[getMoveLocationX()][getMoveLocationY()]) {
+            if (checkCollision()) {
                 endGame();
             }
-            if (!currentPellot.atLocation(getMoveLocationX(),getMoveLocationY()) && (!getSnakeLocation().getSnakeLocation()[getMoveLocationX()][getMoveLocationY()] || !Border[getMoveLocationX()][getMoveLocationY()])) {
-                moveSnake(getMoveLocationX(), getMoveLocationY());
+            if (!currentPellot.atLocation(getNextHorizontalLocation(), getNextVerticalLocation()) && (!getSnakeLocation().getSnakeLocation()[getNextHorizontalLocation()][getNextVerticalLocation()] || !Border[getNextHorizontalLocation()][getNextVerticalLocation()])) {
+                moveSnake(getNextHorizontalLocation(), getNextVerticalLocation());
             }
         }
         System.out.println("The Game is Over, your score is " + getCurrentScore());
+    }
+
+    private boolean checkCollision() {
+        return getSnakeLocation().getSnakeLocation()[getNextHorizontalLocation()][getNextVerticalLocation()] || Border[getNextHorizontalLocation()][getNextVerticalLocation()];
     }
 
     private int getCurrentScore() {
@@ -178,7 +180,7 @@ public class Game extends KeyAdapter {
         }
     }
 
-    private int getMoveLocationX() {
+    private int getNextHorizontalLocation() {
         int newLocation = getSnakeLocation().getHead().getX();
         switch (direction) {
             case LEFT:
@@ -191,7 +193,7 @@ public class Game extends KeyAdapter {
         return newLocation;
     }
 
-    private int getMoveLocationY() {
+    private int getNextVerticalLocation() {
         int newLocation = getSnakeLocation().getHead().getY();
         switch (direction) {
             case UP:
