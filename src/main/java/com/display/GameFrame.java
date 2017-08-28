@@ -14,13 +14,16 @@ import static com.display.Game.*;
  */
 public class GameFrame extends Frame {
 
-    public GameFrame(KeyListener l) {
+    private final Game mainGame;
+
+    public GameFrame(Game aGame) {
 
         setSize(500, 550);
         setVisible(true);
 
         addWindowListener(new CloseWindowAdapter());
-        addKeyListener(l);
+        addKeyListener(aGame);
+        mainGame = aGame;
     }
 
     BufferStrategy strategy = null;
@@ -44,7 +47,7 @@ public class GameFrame extends Frame {
     }
 
     public void draw(Graphics aGraphics) {
-        getGame().drawStuff(aGraphics);
+        mainGame.drawStuff(aGraphics);
         aGraphics.dispose();
     }
 

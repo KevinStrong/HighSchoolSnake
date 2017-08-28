@@ -19,17 +19,16 @@ public class Game extends KeyAdapter {
     private Pellet currentPellet;
     protected SnakeLocation snakeLocation;
 
-    private boolean control = true;
+    private boolean isPlayingGame = true;
     private int currentScore = 0;
     private int highScore;
-    private static Game instance;
     private static DIRECTION direction = DIRECTION.RIGHT;
 
     public void drawStuff(Graphics aGraphics) {
-        getGame().border.buildBorder(aGraphics);
-        getGame().snakeLocation.drawSnake(aGraphics);
-        getGame().drawPellot(aGraphics);
-        getGame().drawScore(aGraphics);
+        border.buildBorder(aGraphics);
+        snakeLocation.drawSnake(aGraphics);
+        drawPellot(aGraphics);
+        drawScore(aGraphics);
     }
 
     private enum DIRECTION {
@@ -40,13 +39,15 @@ public class Game extends KeyAdapter {
     }
 
     public Game() {
-
         snakeLocation = new SnakeLocation();
-        instance = this;
         GameFrame frame = new GameFrame(this);
         border = buildBorder(frame);
         createNewPellet();
-        while (control) {
+        mainGameLoop();
+    }
+
+    private void mainGameLoop() {
+        while (isPlayingGame) {
             delay();
             if (isCollision()) {
                 endGame();
@@ -56,9 +57,8 @@ public class Game extends KeyAdapter {
             } else {
                 moveSnake(getNextHorizontalLocation(), getNextVerticalLocation());
             }
-
+            System.out.println("The Game is Over, your score is " + getCurrentScore());
         }
-        System.out.println("The Game is Over, your score is " + getCurrentScore());
     }
 
     private Border buildBorder(GameFrame frame) {
@@ -92,7 +92,7 @@ public class Game extends KeyAdapter {
 
     private void endGame() {
         System.out.println("Your game is over!");
-        control = false;
+        isPlayingGame = false;
         if (getCurrentScore() > highScore) {
             highScore = getCurrentScore();
         }
@@ -183,10 +183,6 @@ public class Game extends KeyAdapter {
                 break;
         }
         return newLocation;
-    }
-
-    public static Game getGame() {
-        return instance;
     }
 
     @SuppressWarnings("empty-statement")
