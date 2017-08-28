@@ -217,7 +217,7 @@ public class Game extends KeyAdapter {
     @SuppressWarnings("empty-statement")
     private static void delay() {
         try {
-            Thread.sleep(20);
+            Thread.sleep(50);
         } catch (InterruptedException ex) {
             System.out.println("Nap time interrupted! What happened!");
         }
