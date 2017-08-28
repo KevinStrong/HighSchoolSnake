@@ -121,29 +121,6 @@ public class Game extends KeyAdapter {
         addScore(1);
     }
 
-    private void moveSnake(int a, int b) {
-        int x = -1, y = -1;
-        if (getSnakeLocation().getSnakeLocation()[getSnakeLocation().getTail().getX() - 1][getSnakeLocation().getTail().getY()]) {
-            x = getSnakeLocation().getTail().getX() - 1;
-            y = getSnakeLocation().getTail().getY();
-        } else if (getSnakeLocation().getSnakeLocation()[getSnakeLocation().getTail().getX() + 1][getSnakeLocation().getTail().getY()]) {
-            x = getSnakeLocation().getTail().getX() + 1;
-            y = getSnakeLocation().getTail().getY();
-        } else if (getSnakeLocation().getSnakeLocation()[getSnakeLocation().getTail().getX()][getSnakeLocation().getTail().getY() - 1]) {
-            x = getSnakeLocation().getTail().getX();
-            y = getSnakeLocation().getTail().getY() - 1;
-        } else if (getSnakeLocation().getSnakeLocation()[getSnakeLocation().getTail().getX()][getSnakeLocation().getTail().getY() + 1]) {
-            x = getSnakeLocation().getTail().getX();
-            y = getSnakeLocation().getTail().getY() + 1;
-        }
-        getSnakeLocation().getSnakeLocation()[getSnakeLocation().getTail().getX()][getSnakeLocation().getTail().getY()] = false;
-        getSnakeLocation().getTail().newLocation(x, y);
-        getSnakeLocation().getSnakeLocation()[a][b] = true;
-        getSnakeLocation().getHead().newlocation(a, b);
-
-
-    }
-
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_LEFT) {
             direction = DIRECTION.LEFT;
