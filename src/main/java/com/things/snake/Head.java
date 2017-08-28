@@ -1,8 +1,5 @@
 package com.things.snake;
 
-import static com.display.Game.areaSize;
-import static com.display.Game.heightPadding;
-
 /**
  * @author KS70326
  */
