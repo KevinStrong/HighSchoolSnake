@@ -17,7 +17,6 @@ public class Game extends KeyAdapter {
     private boolean[][] Border = new boolean[areaSize][areaSize + heightPadding];
     private Pellot currentPellot;
     private SnakeLocation snakeLocation;
-    public static int initialSnakeLength = 5;
 
     private boolean control = true;
     private int currentScore = 0;

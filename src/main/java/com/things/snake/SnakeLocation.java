@@ -2,9 +2,10 @@ package com.things.snake;
 
 import static com.display.Game.areaSize;
 import static com.display.Game.heightPadding;
-import static com.display.Game.initialSnakeLength;
 
 public class SnakeLocation {
+
+    private static int initialSnakeLength = 5;
 
     private boolean[][] snakeLocation = new boolean[areaSize][areaSize + heightPadding];
     private Tail end;
