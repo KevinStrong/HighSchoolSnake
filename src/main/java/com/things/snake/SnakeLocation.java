@@ -76,23 +76,4 @@ public class SnakeLocation {
         getSnakeLocation()[aX][aY] = true;
         getHead().newlocation(aX, aY);
     }
-
-    private void calculateNewTailLocation() {
-        int x = -1, y = -1;
-        if (isSnakeHere(getTail().getX() - 1, getTail().getY())) {
-            x = getTail().getX() - 1;
-            y = getTail().getY();
-        } else if (isSnakeHere(getTail().getX() + 1, getTail().getY())) {
-            x = getTail().getX() + 1;
-            y = getTail().getY();
-        } else if (isSnakeHere(getTail().getX(), getTail().getY() - 1)) {
-            x = getTail().getX();
-            y = getTail().getY() - 1;
-        } else if (isSnakeHere(getTail().getX(), getTail().getY() + 1)) {
-            x = getTail().getX();
-            y = getTail().getY() + 1;
-        }
-        getSnakeLocation()[getTail().getX()][getTail().getY()] = false;
-        getTail().newLocation(x, y);
-    }
 }
