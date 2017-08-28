@@ -21,14 +21,8 @@ public class Pellet {
     }
 
     public void drawPellot(Graphics g) {
-        for (int x = 0; x < areaSize; x++) {
-            for (int y = 2; y < areaSize + heightPadding; y++) {
-                if (atLocation(x, y)) {
-                    g.setColor(Color.BLUE);
-                    g.fillRect(x * 10, y * 10, 10, 10);
-                }
-            }
-        }
+        g.setColor(Color.BLUE);
+        g.fillRect(x * 10, y * 10, 10, 10);
     }
 
 }
