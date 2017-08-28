@@ -55,7 +55,7 @@ public class Game extends KeyAdapter {
             if (isEatingPellot()) {
                 moveSnakePellot();
             } else {
-                moveSnake(getNextHorizontalLocation(), getNextVerticalLocation());
+                getSnakeLocation().moveSnake(getNextHorizontalLocation(), getNextVerticalLocation());
             }
         }
         System.out.println("The Game is Over, your score is " + getCurrentScore());
@@ -70,7 +70,8 @@ public class Game extends KeyAdapter {
     }
 
     private boolean isCollision() {
-        return getSnakeLocation().getSnakeLocation()[getNextHorizontalLocation()][getNextVerticalLocation()] || border.borderExists(getNextHorizontalLocation(), getNextVerticalLocation());
+        return getSnakeLocation().isSnakeHere(getNextHorizontalLocation(), getNextVerticalLocation())
+        || border.isBorderHere(getNextHorizontalLocation(), getNextVerticalLocation());
     }
 
     private int getCurrentScore() {
@@ -158,6 +159,7 @@ public class Game extends KeyAdapter {
         }
     }
 
+    //long term I want to get rid of this
     private int getNextHorizontalLocation() {
         int newLocation = getSnakeLocation().getHead().getX();
         switch (direction) {
@@ -171,6 +173,7 @@ public class Game extends KeyAdapter {
         return newLocation;
     }
 
+    //long term I want to get rid of this
     private int getNextVerticalLocation() {
         int newLocation = getSnakeLocation().getHead().getY();
         switch (direction) {

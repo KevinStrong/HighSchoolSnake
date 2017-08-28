@@ -15,7 +15,7 @@ public class Border {
         buildBorder(aGraphics);
     }
 
-    public boolean borderExists(int x, int y) {
+    public boolean isBorderHere(int x, int y) {
         return border[x][y];
     }
 
