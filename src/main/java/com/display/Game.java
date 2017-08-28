@@ -57,8 +57,8 @@ public class Game extends KeyAdapter {
             } else {
                 moveSnake(getNextHorizontalLocation(), getNextVerticalLocation());
             }
-            System.out.println("The Game is Over, your score is " + getCurrentScore());
         }
+        System.out.println("The Game is Over, your score is " + getCurrentScore());
     }
 
     private Border buildBorder(GameFrame frame) {
@@ -91,7 +91,6 @@ public class Game extends KeyAdapter {
     }
 
     private void endGame() {
-        System.out.println("Your game is over!");
         isPlayingGame = false;
         if (getCurrentScore() > highScore) {
             highScore = getCurrentScore();
