@@ -45,7 +45,7 @@ public class Game extends KeyAdapter {
         instance = this;
         GameFrame frame = new GameFrame(this);
         border = buildBorder(frame);
-        createNewPellot();
+        createNewPellet();
         while (control) {
             delay();
             if (isCollision()) {
@@ -98,7 +98,7 @@ public class Game extends KeyAdapter {
         }
     }
 
-    private void createNewPellot() {
+    private void createNewPellet() {
         currentPellet = new Pellet();
     }
 
@@ -117,7 +117,7 @@ public class Game extends KeyAdapter {
         //Currently moveSnakePellot also moves the snake (but omits moving the tail, that is how the snake grows!)
         getSnakeLocation().getSnakeLocation()[getNextHorizontalLocation()][getNextVerticalLocation()] = true;
         getSnakeLocation().getHead().newlocation(getNextHorizontalLocation(), getNextVerticalLocation());
-        createNewPellot();
+        createNewPellet();
         addScore(1);
     }
 
