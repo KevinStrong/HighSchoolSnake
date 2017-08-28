@@ -17,13 +17,20 @@ public class Game extends KeyAdapter {
     public static final int heightPadding = 2;
     Border border;
     private Pellot currentPellot;
-    private SnakeLocation snakeLocation;
+    protected SnakeLocation snakeLocation;
 
     private boolean control = true;
     private int currentScore = 0;
     private int highScore;
     private static Game instance;
     private static DIRECTION direction = DIRECTION.RIGHT;
+
+    public void drawStuff(Graphics aGraphics) {
+        getGame().border.buildBorder(aGraphics);
+        getGame().snakeLocation.drawSnake(aGraphics);
+        getGame().drawPellot(aGraphics);
+        getGame().drawScore(aGraphics);
+    }
 
     private enum DIRECTION {
         UP,
@@ -55,7 +62,7 @@ public class Game extends KeyAdapter {
     }
 
     private Border buildBorder(GameFrame frame) {
-        return new Border( frame.getGraphics() );
+        return new Border(frame.getGraphics());
     }
 
     private boolean isEatingPellot() {
@@ -63,7 +70,7 @@ public class Game extends KeyAdapter {
     }
 
     private boolean isCollision() {
-        return getSnakeLocation().getSnakeLocation()[getNextHorizontalLocation()][getNextVerticalLocation()] || border.borderExists(getNextHorizontalLocation(),getNextVerticalLocation());
+        return getSnakeLocation().getSnakeLocation()[getNextHorizontalLocation()][getNextVerticalLocation()] || border.borderExists(getNextHorizontalLocation(), getNextVerticalLocation());
     }
 
     private int getCurrentScore() {
@@ -74,17 +81,6 @@ public class Game extends KeyAdapter {
     @SuppressWarnings("SameParameterValue")
     private void addScore(int x) {
         currentScore += x;
-    }
-
-    public void Clean(Graphics g) {
-        for (int x = 0; x < areaSize; x++) {
-            for (int y = 0; y < areaSize + heightPadding; y++) {
-                if (!border.borderExists(x,y) && !currentPellot.atLocation(x,y)) {
-                    g.setColor(Color.white);
-                    g.fillRect(x * 10, y * 10, 10, 10);
-                }
-            }
-        }
     }
 
     public void drawScore(Graphics g) {
@@ -109,7 +105,7 @@ public class Game extends KeyAdapter {
     public void drawPellot(Graphics g) {
         for (int x = 0; x < areaSize; x++) {
             for (int y = 2; y < areaSize + heightPadding; y++) {
-                if (currentPellot.atLocation(x,y)) {
+                if (currentPellot.atLocation(x, y)) {
                     g.setColor(Color.BLUE);
                     g.fillRect(x * 10, y * 10, 10, 10);
                 }
@@ -146,17 +142,6 @@ public class Game extends KeyAdapter {
         getSnakeLocation().getHead().newlocation(a, b);
 
 
-    }
-
-    public void drawSnake(Graphics g) {
-        for (int x = 0; x < areaSize; x++) {
-            for (int y = 0; y < areaSize + heightPadding; y++) {
-                if (getSnakeLocation().getSnakeLocation()[x][y]) {
-                    g.setColor(Color.magenta);
-                    g.fillRect(x * 10, y * 10, 10, 10);
-                }
-            }
-        }
     }
 
     public void keyPressed(KeyEvent e) {

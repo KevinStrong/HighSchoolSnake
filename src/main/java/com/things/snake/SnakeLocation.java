@@ -1,5 +1,7 @@
 package com.things.snake;
 
+import java.awt.*;
+
 import static com.display.Game.areaSize;
 import static com.display.Game.heightPadding;
 
@@ -33,7 +35,20 @@ public class SnakeLocation {
         return start;
     }
 
-    public boolean[][] getSnakeLocation(){
+    public boolean[][] getSnakeLocation() {
         return snakeLocation;
+    }
+
+    public void drawSnake(Graphics g) {
+        g.setColor(Color.white);
+        getTail().cleanUpTail(g);
+        for (int x = 0; x < areaSize; x++) {
+            for (int y = 0; y < areaSize + heightPadding; y++) {
+                if (getSnakeLocation()[x][y]) {
+                    g.setColor(Color.magenta);
+                    g.fillRect(x * 10, y * 10, 10, 10);
+                }
+            }
+        }
     }
 }

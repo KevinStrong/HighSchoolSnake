@@ -10,7 +10,6 @@ import java.awt.image.BufferStrategy;
 import static com.display.Game.*;
 
 /**
- *
  * @author KS70326
  */
 public class GameFrame extends Frame {
@@ -20,9 +19,10 @@ public class GameFrame extends Frame {
         setSize(500, 550);
         setVisible(true);
 
-        addWindowListener(new adapter());
+        addWindowListener(new CloseWindowAdapter());
         addKeyListener(l);
     }
+
     BufferStrategy strategy = null;
 
     @Override
@@ -32,9 +32,9 @@ public class GameFrame extends Frame {
             strategy = getBufferStrategy();
         }
         super.paint(getBufferStrategy().getDrawGraphics());
-        draw(strategy.getDrawGraphics());
+        draw(getBufferStrategy().getDrawGraphics());
 
-        strategy.show();
+        getBufferStrategy().show();
         repaint();
     }
 
@@ -43,16 +43,12 @@ public class GameFrame extends Frame {
         paint(g);
     }
 
-    public void draw(Graphics g) {
-        getGame().Clean(g);
-        getGame().border.buildBorder(g);
-        getGame().drawSnake(g);
-        getGame().drawPellot(g);
-        getGame().drawScore(g);
-        g.dispose();
+    public void draw(Graphics aGraphics) {
+        getGame().drawStuff(aGraphics);
+        aGraphics.dispose();
     }
 
-    public class adapter extends WindowAdapter {
+    private class CloseWindowAdapter extends WindowAdapter {
 
         @Override
         public void windowClosing(WindowEvent e) {

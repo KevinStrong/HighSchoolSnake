@@ -15,11 +15,9 @@ public class Border {
         buildBorder(aGraphics);
     }
 
-
     public boolean borderExists(int x, int y) {
         return border[x][y];
     }
-
 
     public void buildBorder(Graphics g) {
         g.setColor(Color.orange);

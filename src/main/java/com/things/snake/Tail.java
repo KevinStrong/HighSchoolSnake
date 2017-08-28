@@ -1,48 +1,47 @@
 package com.things.snake;
 
-import static com.display.Game.areaSize;
-import static com.display.Game.heightPadding;
+import java.awt.*;
 
 /**
- *
  * @author KS70326
  */
-public class Tail
-{
-    boolean[][] location=new boolean[areaSize][areaSize + heightPadding];
+public class Tail {
 
-    public Tail(int a, int b)
-    {
-       location[a][b] = true;
-    //   System.out.println("Making new end with locations of" + x+ " " + y);
+    private int x;
+    private int y;
+    private int previousX;
+    private int previousY;
+
+    public Tail(int a, int b) {
+        x = a;
+        y = b;
     }
-    public void clearlocation()
-    {
-        for(int x =0;x<areaSize;x++)
-           for(int y=0;y<areaSize + heightPadding;y++)
-               location[x][y]=false;
+
+    public void newlocation(int aX, int aY) {
+        previousX = x;
+        previousY = y;
+        x = aX;
+        y = aY;
     }
-    public void newlocation(int a,int b)
-    {
-        clearlocation();
-        location[a][b] = true;
+
+    public int getPreviousX() {
+        return previousX;
     }
-    public int getX()
-    {
-        int k = -1;
-        for(int x=0;x<areaSize;x++)
-           for(int y=0;y<areaSize + heightPadding;y++)
-               if(location[x][y])
-                    k = x;
-        return k;
+
+    public int getPreviousY() {
+        return previousY;
     }
-    public int getY()
-    {
-        int k = -1;
-        for(int x=0;x<areaSize;x++)
-           for(int y=0;y<areaSize + heightPadding;y++)
-               if(location[x][y])
-                    k = y;
-        return k;
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void cleanUpTail(Graphics aGraphics) {
+        aGraphics.setColor(Color.WHITE);
+        aGraphics.fillRect(previousX * 10, previousY * 10, 10, 10);
     }
 }
