@@ -137,7 +137,7 @@ public class Game extends KeyAdapter {
             y = getSnakeLocation().getTail().getY() + 1;
         }
         getSnakeLocation().getSnakeLocation()[getSnakeLocation().getTail().getX()][getSnakeLocation().getTail().getY()] = false;
-        getSnakeLocation().getTail().newlocation(x, y);
+        getSnakeLocation().getTail().newLocation(x, y);
         getSnakeLocation().getSnakeLocation()[a][b] = true;
         getSnakeLocation().getHead().newlocation(a, b);
 

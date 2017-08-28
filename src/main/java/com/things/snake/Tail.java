@@ -17,19 +17,11 @@ public class Tail {
         y = b;
     }
 
-    public void newlocation(int aX, int aY) {
+    public void newLocation(int aX, int aY) {
         previousX = x;
         previousY = y;
         x = aX;
         y = aY;
-    }
-
-    public int getPreviousX() {
-        return previousX;
-    }
-
-    public int getPreviousY() {
-        return previousY;
     }
 
     public int getX() {
