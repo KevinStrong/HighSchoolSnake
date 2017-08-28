@@ -27,7 +27,7 @@ public class Game extends KeyAdapter {
     public void drawStuff(Graphics aGraphics) {
         border.buildBorder(aGraphics);
         snakeLocation.drawSnake(aGraphics);
-        currentPellet.drawPellot(aGraphics);
+        currentPellet.drawPellet(aGraphics);
         drawScore(aGraphics);
     }
 

@@ -4,7 +4,6 @@ import java.awt.*;
 import java.util.Random;
 
 import static com.display.Game.areaSize;
-import static com.display.Game.heightPadding;
 
 public class Pellet {
     private static Random generator = new Random();
@@ -20,7 +19,7 @@ public class Pellet {
         return x == aX && y == aY;
     }
 
-    public void drawPellot(Graphics g) {
+    public void drawPellet(Graphics g) {
         g.setColor(Color.BLUE);
         g.fillRect(x * 10, y * 10, 10, 10);
     }
