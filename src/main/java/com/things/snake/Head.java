@@ -1,12 +1,15 @@
 package com.things.snake;
 
+import static com.display.Game.areaSize;
+import static com.display.Game.heightPadding;
+
 /**
  *
  * @author KS70326
  */
 public class Head
 {
-    boolean[][] location=new boolean[50][52];
+    boolean[][] location=new boolean[areaSize][areaSize + heightPadding];
 
     public Head(int x, int y)
     {
@@ -15,8 +18,8 @@ public class Head
     }
     public void clearlocation()
     {
-        for(int x =0;x<50;x++)
-           for(int y=0;y<52;y++)
+        for(int x =0;x<areaSize;x++)
+           for(int y=0;y<areaSize + heightPadding;y++)
                location[x][y]=false;
     }
     public void newlocation(int a,int b)
@@ -27,8 +30,8 @@ public class Head
     public int getX()
     {
         int k = -1;
-        for(int x=0;x<50;x++)
-           for(int y=0;y<52;y++)
+        for(int x=0;x<areaSize;x++)
+           for(int y=0;y<areaSize + heightPadding;y++)
                if(location[x][y])
                     k = x;
         return k;
@@ -36,8 +39,8 @@ public class Head
     public int getY()
     {
         int k = -1;
-        for(int x=0;x<50;x++)
-           for(int y=0;y<52;y++)
+        for(int x=0;x<areaSize;x++)
+           for(int y=0;y<areaSize + heightPadding;y++)
                if(location[x][y])
                     k = y;
         return k;
