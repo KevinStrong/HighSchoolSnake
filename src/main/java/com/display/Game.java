@@ -1,5 +1,6 @@
 package com.display;
 
+import com.things.Border;
 import com.things.Pellot;
 import com.things.snake.SnakeLocation;
 
@@ -14,7 +15,7 @@ public class Game extends KeyAdapter {
 
     public static final int areaSize = 50;
     public static final int heightPadding = 2;
-    private boolean[][] Border = new boolean[areaSize][areaSize + heightPadding];
+    Border border;
     private Pellot currentPellot;
     private SnakeLocation snakeLocation;
 
@@ -36,7 +37,7 @@ public class Game extends KeyAdapter {
         snakeLocation = new SnakeLocation();
         instance = this;
         GameFrame frame = new GameFrame(this);
-        buildBorder(frame.getGraphics());
+        border = buildBorder(frame);
         createNewPellot();
         while (control) {
             delay();
@@ -53,12 +54,16 @@ public class Game extends KeyAdapter {
         System.out.println("The Game is Over, your score is " + getCurrentScore());
     }
 
+    private Border buildBorder(GameFrame frame) {
+        return new Border( frame.getGraphics() );
+    }
+
     private boolean isEatingPellot() {
         return currentPellot.atLocation(getNextHorizontalLocation(), getNextVerticalLocation());
     }
 
     private boolean isCollision() {
-        return getSnakeLocation().getSnakeLocation()[getNextHorizontalLocation()][getNextVerticalLocation()] || Border[getNextHorizontalLocation()][getNextVerticalLocation()];
+        return getSnakeLocation().getSnakeLocation()[getNextHorizontalLocation()][getNextVerticalLocation()] || border.borderExists(getNextHorizontalLocation(),getNextVerticalLocation());
     }
 
     private int getCurrentScore() {
@@ -74,7 +79,7 @@ public class Game extends KeyAdapter {
     public void Clean(Graphics g) {
         for (int x = 0; x < areaSize; x++) {
             for (int y = 0; y < areaSize + heightPadding; y++) {
-                if (!Border[x][y] && !currentPellot.atLocation(x,y)) {
+                if (!border.borderExists(x,y) && !currentPellot.atLocation(x,y)) {
                     g.setColor(Color.white);
                     g.fillRect(x * 10, y * 10, 10, 10);
                 }
@@ -141,20 +146,6 @@ public class Game extends KeyAdapter {
         getSnakeLocation().getHead().newlocation(a, b);
 
 
-    }
-
-    public void buildBorder(Graphics g) {
-        g.setColor(Color.orange);
-        g.fillRect(0, 20, 500, 10);
-        g.fillRect(0, 0, 10, 500);
-        g.fillRect(490, 0, 10, 500);
-        g.fillRect(0, 490, 500, 10);
-        for (int x = 0; x < areaSize; x++) {
-            Border[x][2] = true;
-            Border[x][51] = true;
-            Border[0][x + 2] = true;
-            Border[49][x + 2] = true;
-        }
     }
 
     public void drawSnake(Graphics g) {

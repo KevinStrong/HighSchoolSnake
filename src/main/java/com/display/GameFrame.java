@@ -45,7 +45,7 @@ public class GameFrame extends Frame {
 
     public void draw(Graphics g) {
         getGame().Clean(g);
-        getGame().buildBorder(g);
+        getGame().border.buildBorder(g);
         getGame().drawSnake(g);
         getGame().drawPellot(g);
         getGame().drawScore(g);
