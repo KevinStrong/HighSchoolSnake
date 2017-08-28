@@ -27,7 +27,7 @@ public class Game extends KeyAdapter {
     public void drawStuff(Graphics aGraphics) {
         border.buildBorder(aGraphics);
         snakeLocation.drawSnake(aGraphics);
-        drawPellot(aGraphics);
+        currentPellet.drawPellot(aGraphics);
         drawScore(aGraphics);
     }
 
@@ -100,17 +100,6 @@ public class Game extends KeyAdapter {
 
     private void createNewPellet() {
         currentPellet = new Pellet();
-    }
-
-    public void drawPellot(Graphics g) {
-        for (int x = 0; x < areaSize; x++) {
-            for (int y = 2; y < areaSize + heightPadding; y++) {
-                if (currentPellet.atLocation(x, y)) {
-                    g.setColor(Color.BLUE);
-                    g.fillRect(x * 10, y * 10, 10, 10);
-                }
-            }
-        }
     }
 
     private void moveSnakePellot() {
