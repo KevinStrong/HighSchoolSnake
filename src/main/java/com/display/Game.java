@@ -1,6 +1,7 @@
 package com.display;
 
-import com.snake.SnakeLocation;
+import com.things.Pellot;
+import com.things.snake.SnakeLocation;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -14,9 +15,8 @@ public class Game extends KeyAdapter {
 
     public static final int areaSize = 50;
     public static final int heightPadding = 2;
-    private Random generator = new Random();
     private boolean[][] Border = new boolean[areaSize][areaSize + heightPadding];
-    private boolean[][] pellotLocation = new boolean[areaSize][areaSize + heightPadding];
+    private Pellot currentPellot;
     private SnakeLocation snakeLocation;
     public static int initialSnakeLength = 5;
 
@@ -44,13 +44,13 @@ public class Game extends KeyAdapter {
         while (control) {
             delay();
             buildBorder(frame.getGraphics());
-            if (pellotLocation[getMoveLocationX()][getMoveLocationY()]) {
+            if (currentPellot.atLocation(getMoveLocationX(), getMoveLocationY())) {
                 moveSnakePellot(getMoveLocationX(), getMoveLocationY());
             }
             if (getSnakeLocation().getSnakeLocation()[getMoveLocationX()][getMoveLocationY()] || Border[getMoveLocationX()][getMoveLocationY()]) {
                 endGame();
             }
-            if (!pellotLocation[getMoveLocationX()][getMoveLocationY()] && (!getSnakeLocation().getSnakeLocation()[getMoveLocationX()][getMoveLocationY()] || !Border[getMoveLocationX()][getMoveLocationY()])) {
+            if (!currentPellot.atLocation(getMoveLocationX(),getMoveLocationY()) && (!getSnakeLocation().getSnakeLocation()[getMoveLocationX()][getMoveLocationY()] || !Border[getMoveLocationX()][getMoveLocationY()])) {
                 moveSnake(getMoveLocationX(), getMoveLocationY());
             }
         }
@@ -70,7 +70,7 @@ public class Game extends KeyAdapter {
     public void Clean(Graphics g) {
         for (int x = 0; x < areaSize; x++) {
             for (int y = 0; y < areaSize + heightPadding; y++) {
-                if (!Border[x][y] && !pellotLocation[x][y]) {
+                if (!Border[x][y] && !currentPellot.atLocation(x,y)) {
                     g.setColor(Color.white);
                     g.fillRect(x * 10, y * 10, 10, 10);
                 }
@@ -93,29 +93,14 @@ public class Game extends KeyAdapter {
         }
     }
 
-    private void clearPellots() {
-        for (int x = 0; x < areaSize; x++) {
-            for (int y = 0; y < areaSize; y++) {
-                pellotLocation[x][y] = false;
-            }
-        }
-    }
-
     private void createNewPellot() {
-        int x, y;
-        clearPellots();
-        do {
-
-            x = generator.nextInt(areaSize - 3) + 1;
-            y = generator.nextInt(areaSize - 3) + 1;
-        } while (getSnakeLocation().getSnakeLocation()[x][y]);
-        pellotLocation[x][y] = true;
+        currentPellot = new Pellot();
     }
 
     public void drawPellot(Graphics g) {
         for (int x = 0; x < areaSize; x++) {
             for (int y = 2; y < areaSize + heightPadding; y++) {
-                if (pellotLocation[x][y]) {
+                if (currentPellot.atLocation(x,y)) {
                     g.setColor(Color.BLUE);
                     g.fillRect(x * 10, y * 10, 10, 10);
                 }

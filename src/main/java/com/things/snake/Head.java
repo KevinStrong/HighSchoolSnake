@@ -1,17 +1,17 @@
-package com.snake;
+package com.things.snake;
 
 /**
  *
  * @author KS70326
  */
-public class Tail
+public class Head
 {
     boolean[][] location=new boolean[50][52];
 
-    public Tail(int a, int b)
+    public Head(int x, int y)
     {
-       location[a][b] = true;
-    //   System.out.println("Making new end with locations of" + x+ " " + y);
+       location[x][y] = true;
+    //   System.out.println("Making new start with locations of" + x+ " " + y);
     }
     public void clearlocation()
     {
