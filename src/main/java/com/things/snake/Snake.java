@@ -33,7 +33,7 @@ public class Snake extends KeyAdapter {
         start = new Head(10, 5);
     }
 
-    public void buildSnake() {
+    private void buildSnake() {
         for (int x = 0; x <= initialSnakeLength; x++) {
             snakeLocation[10 - x][5] = true;
         }
@@ -44,7 +44,7 @@ public class Snake extends KeyAdapter {
         return end;
     }
 
-    public Head getHead() {
+    private Head getHead() {
         return start;
     }
 
@@ -65,7 +65,7 @@ public class Snake extends KeyAdapter {
         }
     }
 
-    public boolean[][] getSnakeLocation() {
+    private boolean[][] getSnakeLocation() {
         return snakeLocation;
     }
 
@@ -97,6 +97,7 @@ public class Snake extends KeyAdapter {
                 getNextVerticalLocation());
     }
 
+    //todo get this private
     public  int getNextHorizontalLocation() {
         int newLocation = getHead().getX();
         switch (direction) {
@@ -110,6 +111,7 @@ public class Snake extends KeyAdapter {
         return newLocation;
     }
 
+    //todo get this private
     public int getNextVerticalLocation() {
         int newLocation = getHead().getY();
         switch (direction) {
