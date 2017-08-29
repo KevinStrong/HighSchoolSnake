@@ -38,7 +38,7 @@ public class SnakeLocation extends KeyAdapter {
 
     }
 
-    public Tail getTail() {
+    private Tail getTail() {
         return end;
     }
 
