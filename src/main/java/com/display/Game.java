@@ -45,7 +45,7 @@ public class Game {
                 getSnakeLocation().moveSnake(  );
             }
         }
-        System.out.println("The Game is Over, your score is " + getCurrentScore());
+        System.out.println("The Game is Over, your score is " + scoreBoard.getCurrentScore());
     }
 
     public void drawObjects(Graphics aGraphics) {
@@ -69,16 +69,6 @@ public class Game {
                 || getSnakeLocation().isCollision(getSnakeLocation());
     }
 
-    private int getCurrentScore() {
-        return scoreBoard.getCurrentScore();
-    }
-
-    //Future pellet types may eventually increment your score by more than 1
-    @SuppressWarnings("SameParameterValue")
-    private void addScore(int x) {
-        scoreBoard.incrementScore(x);
-    }
-
     private void endGame() {
         isPlayingGame = false;
         scoreBoard.endGame();
@@ -95,7 +85,7 @@ public class Game {
         getSnakeLocation().getHead().newlocation(getSnakeLocation().getNextHorizontalLocation(),
                 getSnakeLocation().getNextVerticalLocation());
         createNewPellet();
-        addScore(1);
+        scoreBoard.incrementScore(1);
     }
 
     @SuppressWarnings("empty-statement")
