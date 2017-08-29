@@ -31,7 +31,7 @@ public class Game extends KeyAdapter {
         drawScore(aGraphics);
     }
 
-    private enum DIRECTION {
+    public enum DIRECTION {
         UP,
         DOWN,
         RIGHT,
@@ -55,7 +55,7 @@ public class Game extends KeyAdapter {
             if (isEatingPellot()) {
                 moveSnakePellot();
             } else {
-                getSnakeLocation().moveSnake(getNextHorizontalLocation(), getNextVerticalLocation());
+                getSnakeLocation().moveSnake( direction );
             }
         }
         System.out.println("The Game is Over, your score is " + getCurrentScore());
@@ -66,12 +66,12 @@ public class Game extends KeyAdapter {
     }
 
     private boolean isEatingPellot() {
-        return currentPellet.atLocation(getNextHorizontalLocation(), getNextVerticalLocation());
+        return currentPellet.atLocation(getSnakeLocation().getNextHorizontalLocation( direction ),
+                getSnakeLocation().getNextVerticalLocation( direction ));
     }
 
     private boolean isCollision() {
-        return getSnakeLocation().isSnakeHere(getNextHorizontalLocation(), getNextVerticalLocation())
-        || border.isBorderHere(getNextHorizontalLocation(), getNextVerticalLocation());
+        return border.isCollision(getSnakeLocation(), direction) || getSnakeLocation().isCollision(getSnakeLocation());
     }
 
     private int getCurrentScore() {
@@ -104,8 +104,10 @@ public class Game extends KeyAdapter {
 
     private void moveSnakePellot() {
         //Currently moveSnakePellot also moves the snake (but omits moving the tail, that is how the snake grows!)
-        getSnakeLocation().getSnakeLocation()[getNextHorizontalLocation()][getNextVerticalLocation()] = true;
-        getSnakeLocation().getHead().newlocation(getNextHorizontalLocation(), getNextVerticalLocation());
+        getSnakeLocation().getSnakeLocation()[getSnakeLocation().getNextHorizontalLocation(direction)]
+                [getSnakeLocation().getNextVerticalLocation(direction)] = true;
+        getSnakeLocation().getHead().newlocation(getSnakeLocation().getNextHorizontalLocation(direction),
+                getSnakeLocation().getNextVerticalLocation(direction));
         createNewPellet();
         addScore(1);
     }
@@ -125,33 +127,6 @@ public class Game extends KeyAdapter {
         }
     }
 
-    //long term I want to get rid of this
-    private int getNextHorizontalLocation() {
-        int newLocation = getSnakeLocation().getHead().getX();
-        switch (direction) {
-            case LEFT:
-                newLocation -= 1;
-                break;
-            case RIGHT:
-                newLocation += 1;
-                break;
-        }
-        return newLocation;
-    }
-
-    //long term I want to get rid of this
-    private int getNextVerticalLocation() {
-        int newLocation = getSnakeLocation().getHead().getY();
-        switch (direction) {
-            case UP:
-                newLocation -= 1;
-                break;
-            case DOWN:
-                newLocation += 1;
-                break;
-        }
-        return newLocation;
-    }
 
     @SuppressWarnings("empty-statement")
     private static void delay() {

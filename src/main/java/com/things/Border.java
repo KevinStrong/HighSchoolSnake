@@ -1,5 +1,8 @@
 package com.things;
 
+import com.display.Game;
+import com.things.snake.SnakeLocation;
+
 import java.awt.*;
 
 import static com.display.Game.areaSize;
@@ -34,5 +37,11 @@ public class Border {
             border[0][x + heightPadding] = true;
             border[areaSize - 1][x + heightPadding] = true;
         }
+    }
+
+    public boolean isCollision(SnakeLocation snakeLocation, Game.DIRECTION direction) {
+        int x = snakeLocation.getNextHorizontalLocation(direction);
+        int y = snakeLocation.getNextVerticalLocation(direction);
+        return border[x][y];
     }
 }

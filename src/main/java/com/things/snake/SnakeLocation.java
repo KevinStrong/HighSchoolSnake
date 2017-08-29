@@ -1,5 +1,7 @@
 package com.things.snake;
 
+import com.display.Game;
+
 import java.awt.*;
 
 import static com.display.Game.areaSize;
@@ -56,7 +58,7 @@ public class SnakeLocation {
         return snakeLocation;
     }
 
-    public void moveSnake(int aX, int aY) {
+    public void moveSnake(Game.DIRECTION aDirection) {
         int x = -1, y = -1;
         if (isSnakeHere(getTail().getX() - 1,getTail().getY())) {
             x = getTail().getX() - 1;
@@ -73,7 +75,37 @@ public class SnakeLocation {
         }
         getSnakeLocation()[getTail().getX()][getTail().getY()] = false;
         getTail().newLocation(x, y);
-        getSnakeLocation()[aX][aY] = true;
-        getHead().newlocation(aX, aY);
+        getSnakeLocation()[getNextHorizontalLocation(aDirection)][getNextVerticalLocation(aDirection)] = true;
+        getHead().newlocation(getNextHorizontalLocation(aDirection), getNextVerticalLocation(aDirection));
+    }
+
+    public  int getNextHorizontalLocation(Game.DIRECTION currentDirection ) {
+        int newLocation = getHead().getX();
+        switch (currentDirection) {
+            case LEFT:
+                newLocation -= 1;
+                break;
+            case RIGHT:
+                newLocation += 1;
+                break;
+        }
+        return newLocation;
+    }
+
+    public int getNextVerticalLocation(Game.DIRECTION currentDirection) {
+        int newLocation = getHead().getY();
+        switch (currentDirection) {
+            case UP:
+                newLocation -= 1;
+                break;
+            case DOWN:
+                newLocation += 1;
+                break;
+        }
+        return newLocation;
+    }
+
+    public boolean isCollision(SnakeLocation snakeLocation) {
+        return false;
     }
 }
