@@ -105,7 +105,7 @@ public class SnakeLocation {
         return newLocation;
     }
 
-    public boolean isCollision(SnakeLocation snakeLocation) {
-        return false;
+    public boolean isCollision(SnakeLocation snakeLocation, Game.DIRECTION aDirection) {
+        return snakeLocation.getSnakeLocation()[getNextHorizontalLocation(aDirection)][getNextVerticalLocation(aDirection)];
     }
 }

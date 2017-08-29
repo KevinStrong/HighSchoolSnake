@@ -2,12 +2,9 @@ package com.display;
 
 import java.awt.Frame;
 import java.awt.Graphics;
-import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferStrategy;
-
-import static com.display.Game.*;
 
 /**
  * @author KS70326
@@ -47,7 +44,7 @@ public class GameFrame extends Frame {
     }
 
     public void draw(Graphics aGraphics) {
-        mainGame.drawStuff(aGraphics);
+        mainGame.drawObjects(aGraphics);
         aGraphics.dispose();
     }
 

@@ -24,13 +24,6 @@ public class Game extends KeyAdapter {
     private int highScore;
     private static DIRECTION direction;
 
-    public void drawStuff(Graphics aGraphics) {
-        border.buildBorder(aGraphics);
-        snakeLocation.drawSnake(aGraphics);
-        currentPellet.drawPellet(aGraphics);
-        drawScore(aGraphics);
-    }
-
     public enum DIRECTION {
         UP,
         DOWN,
@@ -42,7 +35,7 @@ public class Game extends KeyAdapter {
         direction = DIRECTION.RIGHT;
         snakeLocation = new SnakeLocation();
         GameFrame frame = new GameFrame(this);
-        border = buildBorder(frame);
+        border = createBorder(frame);
         createNewPellet();
         mainGameLoop();
     }
@@ -62,7 +55,14 @@ public class Game extends KeyAdapter {
         System.out.println("The Game is Over, your score is " + getCurrentScore());
     }
 
-    private Border buildBorder(GameFrame frame) {
+    public void drawObjects(Graphics aGraphics) {
+        border.buildBorder(aGraphics);
+        snakeLocation.drawSnake(aGraphics);
+        currentPellet.drawPellet(aGraphics);
+        drawScore(aGraphics);
+    }
+
+    private Border createBorder(GameFrame frame) {
         return new Border(frame.getGraphics());
     }
 
@@ -72,7 +72,8 @@ public class Game extends KeyAdapter {
     }
 
     private boolean isCollision() {
-        return border.isCollision(getSnakeLocation(), direction) || getSnakeLocation().isCollision(getSnakeLocation());
+        return border.isCollision(getSnakeLocation(), direction)
+                || getSnakeLocation().isCollision(getSnakeLocation(), direction);
     }
 
     private int getCurrentScore() {
