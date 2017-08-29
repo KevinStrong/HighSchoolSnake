@@ -19,7 +19,7 @@ public class GameFrame extends Frame {
         setVisible(true);
 
         addWindowListener(new CloseWindowAdapter());
-        addKeyListener(aGame.getSnakeLocation());
+        addKeyListener(aGame.getSnake());
         mainGame = aGame;
     }
 

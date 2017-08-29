@@ -2,9 +2,8 @@ package com.display;
 
 import com.things.Border;
 import com.things.Pellet;
-import com.things.snake.SnakeLocation;
+import com.things.snake.Snake;
 
-import java.awt.Color;
 import java.awt.Graphics;
 
 /**
@@ -17,7 +16,7 @@ public class Game {
     private static long timeOfLastSleep;
     private Border border;
     private Pellet currentPellet;
-    protected SnakeLocation snakeLocation;
+    protected Snake snake;
 
     private boolean isPlayingGame = true;
     private ScoreBoard scoreBoard;
@@ -26,7 +25,7 @@ public class Game {
 
     public Game() {
         scoreBoard = new ScoreBoard();
-        snakeLocation = new SnakeLocation();
+        snake = new Snake();
         GameFrame frame = new GameFrame(this);
         border = createBorder(frame);
         createNewPellet();
@@ -42,7 +41,7 @@ public class Game {
             if (isEatingPellot()) {
                 moveSnakePellot();
             } else {
-                getSnakeLocation().moveSnake(  );
+                getSnake().moveSnake(  );
             }
         }
         System.out.println("The Game is Over, your score is " + scoreBoard.getCurrentScore());
@@ -50,7 +49,7 @@ public class Game {
 
     public void drawObjects(Graphics aGraphics) {
         border.buildBorder(aGraphics);
-        snakeLocation.drawSnake(aGraphics);
+        snake.drawSnake(aGraphics);
         currentPellet.drawPellet(aGraphics);
         scoreBoard.drawScore(aGraphics);
     }
@@ -60,13 +59,13 @@ public class Game {
     }
 
     private boolean isEatingPellot() {
-        return currentPellet.atLocation(getSnakeLocation().getNextHorizontalLocation(),
-                getSnakeLocation().getNextVerticalLocation(  ));
+        return currentPellet.atLocation(getSnake().getNextHorizontalLocation(),
+                getSnake().getNextVerticalLocation(  ));
     }
 
     private boolean isCollision() {
-        return border.isCollision(getSnakeLocation())
-                || getSnakeLocation().isCollision(getSnakeLocation());
+        return border.isCollision(getSnake())
+                || getSnake().isCollision(getSnake());
     }
 
     private void endGame() {
@@ -80,10 +79,10 @@ public class Game {
 
     private void moveSnakePellot() {
         //Currently moveSnakePellot also moves the snake (but omits moving the tail, that is how the snake grows!)
-        getSnakeLocation().getSnakeLocation()[getSnakeLocation().getNextHorizontalLocation()]
-                [getSnakeLocation().getNextVerticalLocation()] = true;
-        getSnakeLocation().getHead().newlocation(getSnakeLocation().getNextHorizontalLocation(),
-                getSnakeLocation().getNextVerticalLocation());
+        getSnake().getSnakeLocation()[getSnake().getNextHorizontalLocation()]
+                [getSnake().getNextVerticalLocation()] = true;
+        getSnake().getHead().newlocation(getSnake().getNextHorizontalLocation(),
+                getSnake().getNextVerticalLocation());
         createNewPellet();
         scoreBoard.incrementScore(1);
     }
@@ -102,7 +101,7 @@ public class Game {
 
     }
 
-    public SnakeLocation getSnakeLocation() {
-        return snakeLocation;
+    public Snake getSnake() {
+        return snake;
     }
 }

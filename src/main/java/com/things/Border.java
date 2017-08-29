@@ -1,6 +1,6 @@
 package com.things;
 
-import com.things.snake.SnakeLocation;
+import com.things.snake.Snake;
 
 import java.awt.*;
 
@@ -38,9 +38,9 @@ public class Border {
         }
     }
 
-    public boolean isCollision(SnakeLocation snakeLocation ) {
-        int x = snakeLocation.getNextHorizontalLocation();
-        int y = snakeLocation.getNextVerticalLocation();
+    public boolean isCollision(Snake snake) {
+        int x = snake.getNextHorizontalLocation();
+        int y = snake.getNextVerticalLocation();
         return border[x][y];
     }
 }

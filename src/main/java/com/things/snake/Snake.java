@@ -7,7 +7,7 @@ import java.awt.event.KeyEvent;
 import static com.display.Game.areaSize;
 import static com.display.Game.heightPadding;
 
-public class SnakeLocation extends KeyAdapter {
+public class Snake extends KeyAdapter {
 
     private static int initialSnakeLength = 9;
 
@@ -23,7 +23,7 @@ public class SnakeLocation extends KeyAdapter {
         LEFT
     }
 
-    public SnakeLocation() {
+    public Snake() {
         direction = DIRECTION.RIGHT;
         this.snakeLocation = new boolean[areaSize][areaSize + heightPadding];
         buildSnake();
@@ -114,8 +114,8 @@ public class SnakeLocation extends KeyAdapter {
         return newLocation;
     }
 
-    public boolean isCollision(SnakeLocation snakeLocation) {
-        return snakeLocation.getSnakeLocation()[getNextHorizontalLocation()][getNextVerticalLocation()];
+    public boolean isCollision(Snake snake) {
+        return snake.getSnakeLocation()[getNextHorizontalLocation()][getNextVerticalLocation()];
     }
 
     public void keyPressed(KeyEvent e) {
