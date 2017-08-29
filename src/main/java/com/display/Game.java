@@ -6,7 +6,6 @@ import com.things.snake.SnakeLocation;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.event.*;
 
 /**
  * @author Kevin Strong
@@ -15,6 +14,7 @@ public class Game {
 
     public static final int areaSize = 50;
     public static final int heightPadding = 2;
+    private static long timeOfLastSleep;
     private Border border;
     private Pellet currentPellet;
     protected SnakeLocation snakeLocation;
@@ -107,11 +107,15 @@ public class Game {
 
     @SuppressWarnings("empty-statement")
     private static void delay() {
-        try {
-            Thread.sleep(50);
-        } catch (InterruptedException ex) {
-            System.out.println("Nap time interrupted! What happened!");
+        long timeElapsed = System.currentTimeMillis() - timeOfLastSleep;
+        if (50 > timeElapsed) {
+            try {
+                Thread.sleep(50 - timeElapsed);
+            } catch (InterruptedException ex) {
+                System.out.println("Nap time interrupted! What happened!");
+            }
         }
+        timeOfLastSleep = System.currentTimeMillis();
 
     }
 
