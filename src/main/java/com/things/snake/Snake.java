@@ -1,5 +1,7 @@
 package com.things.snake;
 
+import com.things.Pellet;
+
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -88,6 +90,13 @@ public class Snake extends KeyAdapter {
         getHead().newlocation(getNextHorizontalLocation(), getNextVerticalLocation());
     }
 
+    public void moveSnakeHeadOnly() {
+        getSnakeLocation()[getNextHorizontalLocation()]
+                [getNextVerticalLocation()] = true;
+        getHead().newlocation(getNextHorizontalLocation(),
+                getNextVerticalLocation());
+    }
+
     public  int getNextHorizontalLocation() {
         int newLocation = getHead().getX();
         switch (direction) {
@@ -112,6 +121,10 @@ public class Snake extends KeyAdapter {
                 break;
         }
         return newLocation;
+    }
+
+    public boolean eats(Pellet currentPellet) {
+        return currentPellet.atLocation( getNextHorizontalLocation(), getNextVerticalLocation() );
     }
 
     public boolean isCollision(Snake snake) {
