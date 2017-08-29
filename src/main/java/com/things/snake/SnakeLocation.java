@@ -1,21 +1,30 @@
 package com.things.snake;
 
-import com.display.Game;
-
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import static com.display.Game.areaSize;
 import static com.display.Game.heightPadding;
 
-public class SnakeLocation {
+public class SnakeLocation extends KeyAdapter {
 
     private static int initialSnakeLength = 5;
 
     private boolean[][] snakeLocation = new boolean[areaSize][areaSize + heightPadding];
     private Tail end;
     private Head start;
+    private static DIRECTION direction;
+
+    public enum DIRECTION {
+        UP,
+        DOWN,
+        RIGHT,
+        LEFT
+    }
 
     public SnakeLocation() {
+        direction = DIRECTION.RIGHT;
         this.snakeLocation = new boolean[areaSize][areaSize + heightPadding];
         buildSnake();
         end = new Tail(10 - initialSnakeLength, 5);
@@ -58,7 +67,7 @@ public class SnakeLocation {
         return snakeLocation;
     }
 
-    public void moveSnake(Game.DIRECTION aDirection) {
+    public void moveSnake() {
         int x = -1, y = -1;
         if (isSnakeHere(getTail().getX() - 1,getTail().getY())) {
             x = getTail().getX() - 1;
@@ -75,13 +84,13 @@ public class SnakeLocation {
         }
         getSnakeLocation()[getTail().getX()][getTail().getY()] = false;
         getTail().newLocation(x, y);
-        getSnakeLocation()[getNextHorizontalLocation(aDirection)][getNextVerticalLocation(aDirection)] = true;
-        getHead().newlocation(getNextHorizontalLocation(aDirection), getNextVerticalLocation(aDirection));
+        getSnakeLocation()[getNextHorizontalLocation()][getNextVerticalLocation()] = true;
+        getHead().newlocation(getNextHorizontalLocation(), getNextVerticalLocation());
     }
 
-    public  int getNextHorizontalLocation(Game.DIRECTION currentDirection ) {
+    public  int getNextHorizontalLocation() {
         int newLocation = getHead().getX();
-        switch (currentDirection) {
+        switch (direction) {
             case LEFT:
                 newLocation -= 1;
                 break;
@@ -92,9 +101,9 @@ public class SnakeLocation {
         return newLocation;
     }
 
-    public int getNextVerticalLocation(Game.DIRECTION currentDirection) {
+    public int getNextVerticalLocation() {
         int newLocation = getHead().getY();
-        switch (currentDirection) {
+        switch (direction) {
             case UP:
                 newLocation -= 1;
                 break;
@@ -105,7 +114,22 @@ public class SnakeLocation {
         return newLocation;
     }
 
-    public boolean isCollision(SnakeLocation snakeLocation, Game.DIRECTION aDirection) {
-        return snakeLocation.getSnakeLocation()[getNextHorizontalLocation(aDirection)][getNextVerticalLocation(aDirection)];
+    public boolean isCollision(SnakeLocation snakeLocation) {
+        return snakeLocation.getSnakeLocation()[getNextHorizontalLocation()][getNextVerticalLocation()];
+    }
+
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+            direction = DIRECTION.LEFT;
+        }
+        if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+            direction = DIRECTION.RIGHT;
+        }
+        if (e.getKeyCode() == KeyEvent.VK_UP) {
+            direction = DIRECTION.UP;
+        }
+        if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+            direction = DIRECTION.DOWN;
+        }
     }
 }

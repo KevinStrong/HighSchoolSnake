@@ -11,7 +11,7 @@ import java.awt.event.*;
 /**
  * @author Kevin Strong
  */
-public class Game extends KeyAdapter {
+public class Game {
 
     public static final int areaSize = 50;
     public static final int heightPadding = 2;
@@ -22,17 +22,8 @@ public class Game extends KeyAdapter {
     private boolean isPlayingGame = true;
     private int currentScore = 0;
     private int highScore;
-    private static DIRECTION direction;
-
-    public enum DIRECTION {
-        UP,
-        DOWN,
-        RIGHT,
-        LEFT
-    }
 
     public Game() {
-        direction = DIRECTION.RIGHT;
         snakeLocation = new SnakeLocation();
         GameFrame frame = new GameFrame(this);
         border = createBorder(frame);
@@ -49,7 +40,7 @@ public class Game extends KeyAdapter {
             if (isEatingPellot()) {
                 moveSnakePellot();
             } else {
-                getSnakeLocation().moveSnake( direction );
+                getSnakeLocation().moveSnake(  );
             }
         }
         System.out.println("The Game is Over, your score is " + getCurrentScore());
@@ -67,13 +58,13 @@ public class Game extends KeyAdapter {
     }
 
     private boolean isEatingPellot() {
-        return currentPellet.atLocation(getSnakeLocation().getNextHorizontalLocation( direction ),
-                getSnakeLocation().getNextVerticalLocation( direction ));
+        return currentPellet.atLocation(getSnakeLocation().getNextHorizontalLocation(),
+                getSnakeLocation().getNextVerticalLocation(  ));
     }
 
     private boolean isCollision() {
-        return border.isCollision(getSnakeLocation(), direction)
-                || getSnakeLocation().isCollision(getSnakeLocation(), direction);
+        return border.isCollision(getSnakeLocation())
+                || getSnakeLocation().isCollision(getSnakeLocation());
     }
 
     private int getCurrentScore() {
@@ -106,29 +97,13 @@ public class Game extends KeyAdapter {
 
     private void moveSnakePellot() {
         //Currently moveSnakePellot also moves the snake (but omits moving the tail, that is how the snake grows!)
-        getSnakeLocation().getSnakeLocation()[getSnakeLocation().getNextHorizontalLocation(direction)]
-                [getSnakeLocation().getNextVerticalLocation(direction)] = true;
-        getSnakeLocation().getHead().newlocation(getSnakeLocation().getNextHorizontalLocation(direction),
-                getSnakeLocation().getNextVerticalLocation(direction));
+        getSnakeLocation().getSnakeLocation()[getSnakeLocation().getNextHorizontalLocation()]
+                [getSnakeLocation().getNextVerticalLocation()] = true;
+        getSnakeLocation().getHead().newlocation(getSnakeLocation().getNextHorizontalLocation(),
+                getSnakeLocation().getNextVerticalLocation());
         createNewPellet();
         addScore(1);
     }
-
-    public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            direction = DIRECTION.LEFT;
-        }
-        if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            direction = DIRECTION.RIGHT;
-        }
-        if (e.getKeyCode() == KeyEvent.VK_UP) {
-            direction = DIRECTION.UP;
-        }
-        if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-            direction = DIRECTION.DOWN;
-        }
-    }
-
 
     @SuppressWarnings("empty-statement")
     private static void delay() {
