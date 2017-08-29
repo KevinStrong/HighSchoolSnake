@@ -32,7 +32,6 @@ public class Game {
 
     private void mainGameLoop() {
         while (isPlayingGame) {
-            delay();
             if (isCollision()) {
                 endGame();
             }
@@ -41,6 +40,7 @@ public class Game {
             } else {
                 getSnake().moveSnake(  );
             }
+            delay();
         }
         System.out.println("The Game is Over, your score is " + scoreBoard.getCurrentScore());
     }
