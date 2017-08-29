@@ -17,11 +17,9 @@ public class Game {
     private Border border;
     private Pellet currentPellet;
     protected Snake snake;
-
-    private boolean isPlayingGame = true;
     private ScoreBoard scoreBoard;
 
-
+    private boolean isPlayingGame = true;
 
     public Game() {
         scoreBoard = new ScoreBoard();
