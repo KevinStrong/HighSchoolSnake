@@ -9,7 +9,7 @@ import static com.display.Game.heightPadding;
 
 public class SnakeLocation extends KeyAdapter {
 
-    private static int initialSnakeLength = 5;
+    private static int initialSnakeLength = 9;
 
     private boolean[][] snakeLocation = new boolean[areaSize][areaSize + heightPadding];
     private Tail end;
