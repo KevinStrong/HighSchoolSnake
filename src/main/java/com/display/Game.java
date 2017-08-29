@@ -20,10 +20,12 @@ public class Game {
     protected SnakeLocation snakeLocation;
 
     private boolean isPlayingGame = true;
-    private int currentScore = 0;
-    private int highScore;
+    private ScoreBoard scoreBoard;
+
+
 
     public Game() {
+        scoreBoard = new ScoreBoard();
         snakeLocation = new SnakeLocation();
         GameFrame frame = new GameFrame(this);
         border = createBorder(frame);
@@ -50,7 +52,7 @@ public class Game {
         border.buildBorder(aGraphics);
         snakeLocation.drawSnake(aGraphics);
         currentPellet.drawPellet(aGraphics);
-        drawScore(aGraphics);
+        scoreBoard.drawScore(aGraphics);
     }
 
     private Border createBorder(GameFrame frame) {
@@ -68,27 +70,18 @@ public class Game {
     }
 
     private int getCurrentScore() {
-        return currentScore;
+        return scoreBoard.getCurrentScore();
     }
 
     //Future pellet types may eventually increment your score by more than 1
     @SuppressWarnings("SameParameterValue")
     private void addScore(int x) {
-        currentScore += x;
-    }
-
-    public void drawScore(Graphics g) {
-        g.setColor(Color.white);
-        g.fillRect(400, 500, 100, 75);
-        g.setColor(Color.black);
-        g.drawString("currentScore:" + getCurrentScore(), 450, 525);
+        scoreBoard.incrementScore(x);
     }
 
     private void endGame() {
         isPlayingGame = false;
-        if (getCurrentScore() > highScore) {
-            highScore = getCurrentScore();
-        }
+        scoreBoard.endGame();
     }
 
     private void createNewPellet() {
