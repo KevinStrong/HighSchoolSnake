@@ -22,7 +22,7 @@ public class Game extends KeyAdapter {
     private boolean isPlayingGame = true;
     private int currentScore = 0;
     private int highScore;
-    private static DIRECTION direction = DIRECTION.RIGHT;
+    private static DIRECTION direction;
 
     public void drawStuff(Graphics aGraphics) {
         border.buildBorder(aGraphics);
@@ -39,6 +39,7 @@ public class Game extends KeyAdapter {
     }
 
     public Game() {
+        direction = DIRECTION.RIGHT;
         snakeLocation = new SnakeLocation();
         GameFrame frame = new GameFrame(this);
         border = buildBorder(frame);
