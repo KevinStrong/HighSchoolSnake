@@ -1,6 +1,6 @@
 package com.concepts;
 
-public class PointLocation {
+public abstract class PointLocation {
 
     private int x;
     private int y;
