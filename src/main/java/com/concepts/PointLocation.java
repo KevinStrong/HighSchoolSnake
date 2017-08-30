@@ -1,5 +1,6 @@
 package com.concepts;
 
+//The smallest unit of measurement in the game.  Can be used for collision.
 public abstract class PointLocation {
 
     private int x;

@@ -1,8 +1,10 @@
 package com.things;
 
+import com.concepts.PointLocation;
 import com.things.snake.Snake;
 
 import java.awt.*;
+import java.util.Collection;
 
 import static com.display.Game.areaSize;
 import static com.display.Game.heightPadding;
@@ -33,6 +35,24 @@ public class Border implements Thing{
             border[0][x + heightPadding] = true;
             border[areaSize - 1][x + heightPadding] = true;
         }
+    }
+
+    @Override
+    public boolean doesCollide(Collection<PointLocation> aLocations) {
+        boolean isCollision = false;
+        for (int x = 0; x < border.length; x++) {
+            for (int y = 0; y < border[x].length; y++) {
+                if (border[x][y]) {
+                    for (PointLocation aLocation : aLocations) {
+                        if (aLocation.atLocation(x, y)) {
+                            isCollision = true;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        return isCollision;
     }
 
     public boolean isCollision(Snake snake) {

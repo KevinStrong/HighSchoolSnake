@@ -3,6 +3,7 @@ package com.things;
 import com.concepts.PointLocation;
 
 import java.awt.*;
+import java.util.Collection;
 import java.util.Random;
 
 import static com.display.Game.areaSize;
@@ -12,6 +13,18 @@ public class Pellet extends PointLocation implements Thing {
 
     public Pellet() {
         super(generator.nextInt(areaSize - 3) + 1, generator.nextInt(areaSize - 3) + 1);
+    }
+
+    @Override
+    public boolean doesCollide(Collection<PointLocation> aLocations) {
+        boolean isCollision = false;
+        for (PointLocation aLocation : aLocations) {
+            if (aLocation.atLocation(getX(), getY())) {
+                isCollision = true;
+                break;
+            }
+        }
+        return isCollision;
     }
 
     @Override

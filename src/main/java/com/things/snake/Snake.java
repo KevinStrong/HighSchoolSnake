@@ -1,11 +1,13 @@
 package com.things.snake;
 
+import com.concepts.PointLocation;
 import com.things.Pellet;
 import com.things.Thing;
 
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.Collection;
 
 import static com.display.Game.areaSize;
 import static com.display.Game.heightPadding;
@@ -127,6 +129,24 @@ public class Snake extends KeyAdapter implements Thing {
 
     public boolean eats(Pellet currentPellet) {
         return currentPellet.atLocation( getNextHorizontalLocation(), getNextVerticalLocation() );
+    }
+
+    @Override
+    public boolean doesCollide(Collection<PointLocation> aLocations) {
+        boolean isCollision = false;
+        for (int x = 0; x < snakeLocation.length; x++) {
+            for (int y = 0; y < snakeLocation[x].length; y++) {
+                if (snakeLocation[x][y]) {
+                    for (PointLocation aLocation : aLocations) {
+                        if (aLocation.atLocation(x, y)) {
+                            isCollision = true;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        return isCollision;
     }
 
     public boolean isCollision(Snake snake) {
