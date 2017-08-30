@@ -1,6 +1,7 @@
 package com.things.snake;
 
 import com.things.Pellet;
+import com.things.Thing;
 
 import java.awt.*;
 import java.awt.event.KeyAdapter;
@@ -9,7 +10,7 @@ import java.awt.event.KeyEvent;
 import static com.display.Game.areaSize;
 import static com.display.Game.heightPadding;
 
-public class Snake extends KeyAdapter {
+public class Snake extends KeyAdapter implements Thing {
 
     private static int initialSnakeLength = 9;
 
@@ -52,7 +53,8 @@ public class Snake extends KeyAdapter {
         return snakeLocation[aX][aY];
     }
 
-    public void drawSnake(Graphics g) {
+    @Override
+    public void draw(Graphics g) {
         g.setColor(Color.white);
         getTail().cleanUpTail(g);
         for (int x = 0; x < areaSize; x++) {
@@ -87,14 +89,13 @@ public class Snake extends KeyAdapter {
         getSnakeLocation()[getTail().getX()][getTail().getY()] = false;
         getTail().newLocation(x, y);
         getSnakeLocation()[getNextHorizontalLocation()][getNextVerticalLocation()] = true;
-        getHead().newlocation(getNextHorizontalLocation(), getNextVerticalLocation());
+        start = new Head(getNextHorizontalLocation(), getNextVerticalLocation());
     }
 
     public void moveSnakeHeadOnly() {
         getSnakeLocation()[getNextHorizontalLocation()]
                 [getNextVerticalLocation()] = true;
-        getHead().newlocation(getNextHorizontalLocation(),
-                getNextVerticalLocation());
+        start = new Head(getNextHorizontalLocation(), getNextVerticalLocation());
     }
 
     //todo get this private

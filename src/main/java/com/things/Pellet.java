@@ -1,27 +1,22 @@
 package com.things;
 
+import com.concepts.PointLocation;
+
 import java.awt.*;
 import java.util.Random;
 
 import static com.display.Game.areaSize;
 
-public class Pellet {
+public class Pellet extends PointLocation implements Thing {
     private static Random generator = new Random();
-    int x;
-    int y;
 
     public Pellet() {
-        x = generator.nextInt(areaSize - 3) + 1;
-        y = generator.nextInt(areaSize - 3) + 1;
+        super(generator.nextInt(areaSize - 3) + 1, generator.nextInt(areaSize - 3) + 1);
     }
 
-    public boolean atLocation(int aX, int aY) {
-        return x == aX && y == aY;
-    }
-
-    public void drawPellet(Graphics g) {
+    @Override
+    public void draw(Graphics g) {
         g.setColor(Color.BLUE);
-        g.fillRect(x * 10, y * 10, 10, 10);
+        g.fillRect(getX() * 10, getY() * 10, 10, 10);
     }
-
 }

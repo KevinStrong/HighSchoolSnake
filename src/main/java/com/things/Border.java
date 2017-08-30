@@ -7,21 +7,18 @@ import java.awt.*;
 import static com.display.Game.areaSize;
 import static com.display.Game.heightPadding;
 
-public class Border {
+public class Border implements Thing{
 
     private boolean[][] border;
 
     public Border(Graphics aGraphics) {
         border = new boolean[areaSize][areaSize + heightPadding];
         initializeBorderArray();
-        buildBorder(aGraphics);
+        draw(aGraphics);
     }
 
-    public boolean isBorderHere(int x, int y) {
-        return border[x][y];
-    }
-
-    public void buildBorder(Graphics g) {
+    @Override
+    public void draw(Graphics g) {
         g.setColor(Color.orange);
         g.fillRect(0, 20, 500, 10);
         g.fillRect(0, 0, 10, 500);

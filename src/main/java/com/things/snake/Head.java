@@ -1,29 +1,23 @@
 package com.things.snake;
 
+import com.concepts.PointLocation;
+
 /**
  * @author KS70326
  */
-public class Head {
-
-    int x;
-    int y;
+public class Head extends PointLocation {
 
     public Head(int aX, int aY) {
-        x = aX;
-        y = aY;
-        //   System.out.println("Making new start with locations of" + x+ " " + y);
+        super(aX, aY);
     }
 
-    public void newlocation(int aX, int aY) {
-        x = aX;
-        y = aY;
-    }
-
+    @Override
     public int getX() {
-        return x;
+        return super.getX();
     }
 
+    @Override
     public int getY() {
-        return y;
+        return super.getY();
     }
 }

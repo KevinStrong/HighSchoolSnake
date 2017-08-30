@@ -46,9 +46,9 @@ public class Game {
     }
 
     public void drawObjects(Graphics aGraphics) {
-        border.buildBorder(aGraphics);
-        snake.drawSnake(aGraphics);
-        currentPellet.drawPellet(aGraphics);
+        border.draw(aGraphics);
+        snake.draw(aGraphics);
+        currentPellet.draw(aGraphics);
         scoreBoard.drawScore(aGraphics);
     }
 
