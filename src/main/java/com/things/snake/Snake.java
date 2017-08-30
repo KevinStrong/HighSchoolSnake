@@ -88,8 +88,7 @@ public class Snake extends KeyAdapter implements Thing {
         }
         getSnakeLocation()[getTail().getX()][getTail().getY()] = false;
         getTail().newLocation(x, y);
-        getSnakeLocation()[getNextHorizontalLocation()][getNextVerticalLocation()] = true;
-        start = new Head(getNextHorizontalLocation(), getNextVerticalLocation());
+        moveSnakeHeadOnly();
     }
 
     public void moveSnakeHeadOnly() {
