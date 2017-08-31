@@ -4,17 +4,18 @@ import com.concepts.PointLocation;
 import com.things.snake.Snake;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import static com.display.Game.areaSize;
 import static com.display.Game.heightPadding;
 
-public class Border implements Thing{
+public class Border implements Thing {
 
-    private boolean[][] border;
+    Collection<PointLocation> borderPoints;
 
     public Border(Graphics aGraphics) {
-        border = new boolean[areaSize][areaSize + heightPadding];
+        borderPoints = new ArrayList<>();
         initializeBorderArray();
         draw(aGraphics);
     }
@@ -30,34 +31,30 @@ public class Border implements Thing{
 
     private void initializeBorderArray() {
         for (int x = 0; x < areaSize; x++) {
-            border[x][heightPadding] = true;
-            border[x][areaSize + 1] = true;
-            border[0][x + heightPadding] = true;
-            border[areaSize - 1][x + heightPadding] = true;
+            borderPoints.add(new PointLocation(x, heightPadding));
+            borderPoints.add(new PointLocation(x, areaSize + 1));
+            borderPoints.add(new PointLocation(0, x + heightPadding));
+            borderPoints.add(new PointLocation(areaSize - 1, x + heightPadding));
         }
     }
 
     @Override
     public boolean doesCollide(Collection<PointLocation> aLocations) {
         boolean isCollision = false;
-        for (int x = 0; x < border.length; x++) {
-            for (int y = 0; y < border[x].length; y++) {
-                if (border[x][y]) {
-                    for (PointLocation aLocation : aLocations) {
-                        if (aLocation.atLocation(x, y)) {
-                            isCollision = true;
-                            break;
-                        }
-                    }
+        for (PointLocation aLocation : aLocations) {
+            for (PointLocation borderPoint : borderPoints) {
+                if (borderPoint.equals(aLocation)) {
+                    isCollision = true;
+                    break;
                 }
             }
         }
         return isCollision;
     }
 
-    public boolean isCollision(Snake snake) {
-        int x = snake.getNextHorizontalLocation();
-        int y = snake.getNextVerticalLocation();
-        return border[x][y];
+    @Override
+    public Collection<PointLocation> getLocations() {
+        return borderPoints;
     }
+
 }

@@ -7,7 +7,7 @@ import com.things.Thing;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.Collection;
+import java.util.*;
 
 import static com.display.Game.areaSize;
 import static com.display.Game.heightPadding;
@@ -16,142 +16,88 @@ public class Snake extends KeyAdapter implements Thing {
 
     private static int initialSnakeLength = 9;
 
-    private boolean[][] snakeLocation = new boolean[areaSize][areaSize + heightPadding];
-    private Tail end;
-    private Head start;
+
+    //We want to add new locations BASED OFF the head but remove (and keep track of) locations based off the tail.
+    //Basically we need easy access to both ends of the Queue
+    Queue<PointLocation> snakeLocations;
+    PointLocation pastLocation;
     private static DIRECTION direction;
+    private PointLocation currentHead;
+
+
 
     public enum DIRECTION {
         UP,
         DOWN,
         RIGHT,
-        LEFT
+        LEFT;
     }
-
     public Snake() {
         direction = DIRECTION.RIGHT;
-        this.snakeLocation = new boolean[areaSize][areaSize + heightPadding];
+        snakeLocations = new LinkedList<>();
         buildSnake();
-        end = new Tail(10 - initialSnakeLength, 5);
-        start = new Head(10, 5);
+    }
+
+    public boolean selfCollision() {
+        int numberOfMatchesOnHeadLocation = 0;
+        for (PointLocation snakeLocation : snakeLocations) {
+            if (currentHead.equals(snakeLocation)) {
+                numberOfMatchesOnHeadLocation++;
+            }
+        }
+        return numberOfMatchesOnHeadLocation > 1;
     }
 
     private void buildSnake() {
+        PointLocation location = null;
         for (int x = 0; x <= initialSnakeLength; x++) {
-            snakeLocation[10 - x][5] = true;
+            location = new PointLocation(x+ 2, 5);
+            snakeLocations.add(location);
         }
-
-    }
-
-    private Tail getTail() {
-        return end;
-    }
-
-    private Head getHead() {
-        return start;
-    }
-
-    public boolean isSnakeHere(int aX, int aY) {
-        return snakeLocation[aX][aY];
+        currentHead = location;
     }
 
     @Override
     public void draw(Graphics g) {
-        g.setColor(Color.white);
-        getTail().cleanUpTail(g);
         for (int x = 0; x < areaSize; x++) {
             for (int y = 0; y < areaSize + heightPadding; y++) {
-                if (snakeLocation[x][y]) {
-                    g.setColor(Color.magenta);
+                PointLocation currentPoint = new PointLocation(x, y);
+                if (snakeLocations.contains(currentPoint) || pastLocation.equals(currentPoint)) {
+                    g.setColor(pastLocation.equals(currentPoint) ? Color.white : Color.MAGENTA);
                     g.fillRect(x * 10, y * 10, 10, 10);
                 }
             }
         }
     }
 
-    private boolean[][] getSnakeLocation() {
-        return snakeLocation;
-    }
-
     public void moveSnake() {
-        int x = -1, y = -1;
-        if (isSnakeHere(getTail().getX() - 1,getTail().getY())) {
-            x = getTail().getX() - 1;
-            y = getTail().getY();
-        } else if (isSnakeHere(getTail().getX() + 1,getTail().getY())) {
-            x = getTail().getX() + 1;
-            y = getTail().getY();
-        } else if (isSnakeHere(getTail().getX(),getTail().getY() - 1)) {
-            x = getTail().getX();
-            y = getTail().getY() - 1;
-        } else if (isSnakeHere(getTail().getX(),getTail().getY() + 1)) {
-            x = getTail().getX();
-            y = getTail().getY() + 1;
-        }
-        getSnakeLocation()[getTail().getX()][getTail().getY()] = false;
-        getTail().newLocation(x, y);
         moveSnakeHeadOnly();
+        pastLocation = snakeLocations.remove();
     }
 
     public void moveSnakeHeadOnly() {
-        getSnakeLocation()[getNextHorizontalLocation()]
-                [getNextVerticalLocation()] = true;
-        start = new Head(getNextHorizontalLocation(), getNextVerticalLocation());
+        currentHead = currentHead.createAdjacentLocation(direction);
+        snakeLocations.add(currentHead);
     }
 
-    //todo get this private
-    public  int getNextHorizontalLocation() {
-        int newLocation = getHead().getX();
-        switch (direction) {
-            case LEFT:
-                newLocation -= 1;
-                break;
-            case RIGHT:
-                newLocation += 1;
-                break;
-        }
-        return newLocation;
-    }
-
-    //todo get this private
-    public int getNextVerticalLocation() {
-        int newLocation = getHead().getY();
-        switch (direction) {
-            case UP:
-                newLocation -= 1;
-                break;
-            case DOWN:
-                newLocation += 1;
-                break;
-        }
-        return newLocation;
-    }
-
-    public boolean eats(Pellet currentPellet) {
-        return currentPellet.atLocation( getNextHorizontalLocation(), getNextVerticalLocation() );
+    @Override
+    public Collection<PointLocation> getLocations() {
+        return Arrays.asList( snakeLocations.toArray( new PointLocation[snakeLocations.size()] ));
     }
 
     @Override
     public boolean doesCollide(Collection<PointLocation> aLocations) {
-        boolean isCollision = false;
-        for (int x = 0; x < snakeLocation.length; x++) {
-            for (int y = 0; y < snakeLocation[x].length; y++) {
-                if (snakeLocation[x][y]) {
-                    for (PointLocation aLocation : aLocations) {
-                        if (aLocation.atLocation(x, y)) {
-                            isCollision = true;
-                            break;
-                        }
-                    }
-                }
+        boolean doesCollide = false;
+        for (PointLocation aLocation : aLocations) {
+            //Currently only check the head, will need to check all snake locations if other objects start moving.
+            if (aLocation.equals(currentHead)) {
+                doesCollide = true;
+                break;
             }
         }
-        return isCollision;
+        return doesCollide;
     }
 
-    public boolean isCollision(Snake snake) {
-        return snake.getSnakeLocation()[getNextHorizontalLocation()][getNextVerticalLocation()];
-    }
 
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_LEFT) {

@@ -5,6 +5,7 @@ import com.things.Pellet;
 import com.things.snake.Snake;
 
 import java.awt.Graphics;
+import java.util.Collections;
 
 /**
  * @author Kevin Strong
@@ -32,7 +33,7 @@ public class Game {
 
     private void mainGameLoop() {
         while (isPlayingGame) {
-            if (getSnake().eats(currentPellet)) {
+            if (getSnake().doesCollide(Collections.singleton(currentPellet))) {
                 eatPellet();
             } else  {
                 getSnake().moveSnake();
@@ -57,8 +58,8 @@ public class Game {
     }
 
     private boolean isCollision() {
-        return border.isCollision(getSnake())
-                || getSnake().isCollision(getSnake());
+        return getSnake().doesCollide(border.getLocations())
+                || getSnake().selfCollision();
     }
 
     private void endGame() {

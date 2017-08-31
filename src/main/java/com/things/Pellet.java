@@ -4,6 +4,7 @@ import com.concepts.PointLocation;
 
 import java.awt.*;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Random;
 
 import static com.display.Game.areaSize;
@@ -25,6 +26,11 @@ public class Pellet extends PointLocation implements Thing {
             }
         }
         return isCollision;
+    }
+
+    @Override
+    public Collection<PointLocation> getLocations() {
+        return Collections.singletonList(this);
     }
 
     @Override
