@@ -4,6 +4,7 @@ import java.awt.*;
 
 public class ScoreBoard {
 
+    private int previousScore;
     private int score;
     private int highScore;
 
@@ -13,16 +14,21 @@ public class ScoreBoard {
 
     public void drawScore(Graphics g) {
         g.setColor(Color.white);
-        g.fillRect(400, 500, 100, 75);
+        g.drawString("currentScore:" + getPreviousScore(), 400, 575);
         g.setColor(Color.black);
-        g.drawString("currentScore:" + getCurrentScore(), 450, 525);
+        g.drawString("currentScore:" + getCurrentScore(), 400, 575);
     }
 
     public int getCurrentScore() {
         return score;
     }
 
+    private int getPreviousScore() {
+        return previousScore;
+    }
+
     public void incrementScore(int aPoints) {
+        previousScore = score;
         score += aPoints;
     }
 
