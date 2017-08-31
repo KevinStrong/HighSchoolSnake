@@ -12,8 +12,6 @@ public class Snake extends KeyAdapter implements Thing {
 
     private static int initialSnakeLength = 9;
 
-    //We want to add new locations BASED OFF the head but remove (and keep track of) locations based off the tail.
-    //Basically we need easy access to both ends of the Queue
     final Queue<PointLocation> snakeLocations;
     PointLocation pastLocation;
     private static DIRECTION direction;
