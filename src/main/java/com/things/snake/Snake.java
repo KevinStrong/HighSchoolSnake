@@ -15,7 +15,6 @@ public class Snake extends KeyAdapter implements Thing {
 
     private static int initialSnakeLength = 9;
 
-
     //We want to add new locations BASED OFF the head but remove (and keep track of) locations based off the tail.
     //Basically we need easy access to both ends of the Queue
     Queue<PointLocation> snakeLocations;
@@ -23,14 +22,13 @@ public class Snake extends KeyAdapter implements Thing {
     private static DIRECTION direction;
     private PointLocation currentHead;
 
-
-
     public enum DIRECTION {
         UP,
         DOWN,
         RIGHT,
         LEFT;
     }
+
     public Snake() {
         direction = DIRECTION.RIGHT;
         snakeLocations = new LinkedList<>();
@@ -96,7 +94,6 @@ public class Snake extends KeyAdapter implements Thing {
         }
         return doesCollide;
     }
-
 
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_LEFT) {
