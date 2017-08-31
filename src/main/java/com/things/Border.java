@@ -21,12 +21,11 @@ public class Border implements Thing {
     }
 
     @Override
-    public void draw(Graphics g) {
-        g.setColor(Color.orange);
-        g.fillRect(0, 20, 500, 10);
-        g.fillRect(0, 0, 10, 500);
-        g.fillRect(490, 0, 10, 500);
-        g.fillRect(0, 490, 500, 10);
+    public void draw(Graphics aGraphics) {
+        aGraphics.setColor(Color.orange);
+        for (PointLocation borderPoint : borderPoints) {
+            borderPoint.draw(aGraphics, Color.orange);
+        }
     }
 
     private void initializeBorderArray() {

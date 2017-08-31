@@ -35,7 +35,6 @@ public class Pellet extends PointLocation implements Thing {
 
     @Override
     public void draw(Graphics g) {
-        g.setColor(Color.BLUE);
-        g.fillRect(getX() * 10, getY() * 10, 10, 10);
+        draw(g, Color.BLUE);
     }
 }

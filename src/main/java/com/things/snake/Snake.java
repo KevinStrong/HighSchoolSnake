@@ -56,15 +56,10 @@ public class Snake extends KeyAdapter implements Thing {
 
     @Override
     public void draw(Graphics g) {
-        for (int x = 0; x < areaSize; x++) {
-            for (int y = 0; y < areaSize + heightPadding; y++) {
-                PointLocation currentPoint = new PointLocation(x, y);
-                if (snakeLocations.contains(currentPoint) || pastLocation.equals(currentPoint)) {
-                    g.setColor(pastLocation.equals(currentPoint) ? Color.white : Color.MAGENTA);
-                    g.fillRect(x * 10, y * 10, 10, 10);
-                }
-            }
+        for (PointLocation snakeLocation : snakeLocations) {
+            snakeLocation.draw( g, Color.magenta );
         }
+        pastLocation.draw(g, Color.white);
     }
 
     public void moveSnake() {

@@ -2,6 +2,8 @@ package com.concepts;
 
 import com.things.snake.Snake;
 
+import java.awt.*;
+
 //The smallest unit of measurement in the game.  Can be used for collision.
 public class PointLocation {
 
@@ -19,6 +21,11 @@ public class PointLocation {
 
     protected int getY() {
         return y;
+    }
+
+    public void draw(Graphics aGraphics, Color aColor) {
+        aGraphics.setColor(aColor);
+        aGraphics.fillRect( getX() * 10, getY() * 10, 10,10 );
     }
 
     public boolean atLocation(int aX, int aY) {
