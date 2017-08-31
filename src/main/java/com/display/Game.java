@@ -33,7 +33,7 @@ public class Game {
 
     private void mainGameLoop() {
         while (isPlayingGame) {
-            if (getSnake().doesCollide(Collections.singleton(currentPellet))) {
+            if (getSnake().doesCollide(currentPellet.getLocations())) {
                 eatPellet();
             } else  {
                 getSnake().moveSnake();

@@ -9,18 +9,20 @@ import java.util.Random;
 
 import static com.display.Game.areaSize;
 
-public class Pellet extends PointLocation implements Thing {
+public class Pellet implements Thing {
+
+    private PointLocation pelletLocation;
     private static Random generator = new Random();
 
     public Pellet() {
-        super(generator.nextInt(areaSize - 3) + 1, generator.nextInt(areaSize - 3) + 1);
+        pelletLocation = new PointLocation(generator.nextInt(areaSize - 3) + 1, generator.nextInt(areaSize - 3) + 1);
     }
 
     @Override
     public boolean doesCollide(Collection<PointLocation> aLocations) {
         boolean isCollision = false;
         for (PointLocation aLocation : aLocations) {
-            if (aLocation.atLocation(getX(), getY())) {
+            if (pelletLocation.equals(aLocation)) {
                 isCollision = true;
                 break;
             }
@@ -30,11 +32,11 @@ public class Pellet extends PointLocation implements Thing {
 
     @Override
     public Collection<PointLocation> getLocations() {
-        return Collections.singletonList(this);
+        return Collections.singletonList(pelletLocation);
     }
 
     @Override
     public void draw(Graphics g) {
-        draw(g, Color.BLUE);
+        pelletLocation.draw(g, Color.BLUE);
     }
 }
