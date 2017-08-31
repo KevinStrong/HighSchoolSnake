@@ -23,7 +23,7 @@ public class Border implements Thing {
     @Override
     public void draw(Graphics aGraphics) {
         aGraphics.setColor(Color.orange);
-        for (PointLocation borderPoint : borderPoints) {
+        for (PointLocation borderPoint : new ArrayList<>(borderPoints)) {
             borderPoint.draw(aGraphics, Color.orange);
         }
     }

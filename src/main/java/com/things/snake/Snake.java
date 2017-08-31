@@ -50,20 +50,16 @@ public class Snake extends KeyAdapter implements Thing {
     }
 
     @Override
-    public void draw(Graphics g) {
-        synchronized (snakeLocations) {
-            for (PointLocation snakeLocation : snakeLocations) {
-                snakeLocation.draw( g, Color.magenta );
+    public void draw(Graphics aGraphics) {
+            for (PointLocation snakeLocation : new ArrayList<>( snakeLocations )) {
+                snakeLocation.draw( aGraphics, Color.magenta );
             }
-            pastLocation.draw(g, Color.white);
-        }
+            pastLocation.draw(aGraphics, Color.white);
     }
 
     public void moveSnake() {
-        synchronized (snakeLocations) {
-            moveAndGrowSnake();
-            pastLocation = snakeLocations.remove();
-        }
+        moveAndGrowSnake();
+        pastLocation = snakeLocations.remove();
     }
 
     public void moveAndGrowSnake() {
