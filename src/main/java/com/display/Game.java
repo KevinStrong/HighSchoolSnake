@@ -72,7 +72,7 @@ public class Game {
     }
 
     private void eatPellet() {
-        getSnake().moveSnakeHeadOnly();
+        getSnake().moveAndGrowSnake();
         createNewPellet();
         scoreBoard.incrementScore(1);
     }

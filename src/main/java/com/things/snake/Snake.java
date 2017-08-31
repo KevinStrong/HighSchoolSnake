@@ -1,7 +1,6 @@
 package com.things.snake;
 
 import com.concepts.PointLocation;
-import com.things.Pellet;
 import com.things.Thing;
 
 import java.awt.*;
@@ -71,11 +70,11 @@ public class Snake extends KeyAdapter implements Thing {
     }
 
     public void moveSnake() {
-        moveSnakeHeadOnly();
+        moveAndGrowSnake();
         pastLocation = snakeLocations.remove();
     }
 
-    public void moveSnakeHeadOnly() {
+    public void moveAndGrowSnake() {
         currentHead = currentHead.createAdjacentLocation(direction);
         snakeLocations.add(currentHead);
     }
