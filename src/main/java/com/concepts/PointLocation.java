@@ -25,11 +25,7 @@ public class PointLocation {
 
     public void draw(Graphics aGraphics, Color aColor) {
         aGraphics.setColor(aColor);
-        aGraphics.fillRect( getX() * 10, getY() * 10, 10,10 );
-    }
-
-    public boolean atLocation(int aX, int aY) {
-        return getX() == aX && getY() == aY;
+        aGraphics.fillRect( 10 + getX() * 10, 50 + getY() * 10, 10,10 );
     }
 
     public PointLocation createAdjacentLocation(Snake.DIRECTION aDirection) {

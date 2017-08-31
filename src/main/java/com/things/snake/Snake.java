@@ -8,16 +8,13 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.*;
 
-import static com.display.Game.areaSize;
-import static com.display.Game.heightPadding;
-
 public class Snake extends KeyAdapter implements Thing {
 
     private static int initialSnakeLength = 9;
 
     //We want to add new locations BASED OFF the head but remove (and keep track of) locations based off the tail.
     //Basically we need easy access to both ends of the Queue
-    Queue<PointLocation> snakeLocations;
+    final Queue<PointLocation> snakeLocations;
     PointLocation pastLocation;
     private static DIRECTION direction;
     private PointLocation currentHead;
@@ -56,15 +53,19 @@ public class Snake extends KeyAdapter implements Thing {
 
     @Override
     public void draw(Graphics g) {
-        for (PointLocation snakeLocation : snakeLocations) {
-            snakeLocation.draw( g, Color.magenta );
+        synchronized (snakeLocations) {
+            for (PointLocation snakeLocation : snakeLocations) {
+                snakeLocation.draw( g, Color.magenta );
+            }
+            pastLocation.draw(g, Color.white);
         }
-        pastLocation.draw(g, Color.white);
     }
 
     public void moveSnake() {
-        moveAndGrowSnake();
-        pastLocation = snakeLocations.remove();
+        synchronized (snakeLocations) {
+            moveAndGrowSnake();
+            pastLocation = snakeLocations.remove();
+        }
     }
 
     public void moveAndGrowSnake() {

@@ -15,7 +15,7 @@ public class GameFrame extends Frame {
 
     public GameFrame(Game aGame) {
 
-        setSize(500, 550);
+        setSize(530, 600);
         setVisible(true);
 
         addWindowListener(new CloseWindowAdapter());

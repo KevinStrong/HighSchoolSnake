@@ -30,10 +30,10 @@ public class Border implements Thing {
 
     private void initializeBorderArray() {
         for (int x = 0; x < areaSize; x++) {
-            borderPoints.add(new PointLocation(x, heightPadding));
-            borderPoints.add(new PointLocation(x, areaSize + 1));
-            borderPoints.add(new PointLocation(0, x + heightPadding));
-            borderPoints.add(new PointLocation(areaSize - 1, x + heightPadding));
+            borderPoints.add(new PointLocation(x, 0));
+            borderPoints.add(new PointLocation(x, areaSize ));
+            borderPoints.add(new PointLocation(0, x ));
+            borderPoints.add(new PointLocation(areaSize, x));
         }
     }
 
