@@ -26,7 +26,7 @@ public class GameFrame extends Frame {
     BufferStrategy strategy = null;
 
     @Override
-    public void paint(Graphics g) {
+    public void paint(Graphics aGraphics) {
         if (strategy == null) {
             createBufferStrategy(2);
             strategy = getBufferStrategy();
@@ -39,8 +39,8 @@ public class GameFrame extends Frame {
     }
 
     @Override
-    public void update(Graphics g) {
-        paint(g);
+    public void update(Graphics aGraphics) {
+        paint(aGraphics);
     }
 
     public void draw(Graphics aGraphics) {
