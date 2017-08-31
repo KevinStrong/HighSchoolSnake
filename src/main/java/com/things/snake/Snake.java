@@ -12,7 +12,7 @@ public class Snake extends KeyAdapter implements Thing {
 
     private static int initialSnakeLength = 9;
 
-    final Queue<PointLocation> snakeLocations;
+    private final Queue<PointLocation> snakeLocations;
     PointLocation pastLocation;
     private static DIRECTION direction;
     private PointLocation currentHead;
@@ -51,20 +51,26 @@ public class Snake extends KeyAdapter implements Thing {
 
     @Override
     public void draw(Graphics aGraphics) {
-            for (PointLocation snakeLocation : new ArrayList<>( snakeLocations )) {
+        synchronized (snakeLocations) {
+            for (PointLocation snakeLocation : snakeLocations ) {
                 snakeLocation.draw( aGraphics, Color.magenta );
             }
             pastLocation.draw(aGraphics, Color.white);
+        }
     }
 
     public void moveSnake() {
         moveAndGrowSnake();
-        pastLocation = snakeLocations.remove();
+        synchronized (snakeLocations) {
+            pastLocation = snakeLocations.remove();
+        }
     }
 
     public void moveAndGrowSnake() {
         currentHead = currentHead.createAdjacentLocation(direction);
-        snakeLocations.add(currentHead);
+        synchronized (snakeLocations) {
+            snakeLocations.add(currentHead);
+        }
     }
 
     @Override

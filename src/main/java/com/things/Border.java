@@ -1,18 +1,16 @@
 package com.things;
 
 import com.concepts.PointLocation;
-import com.things.snake.Snake;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collection;
 
 import static com.display.Game.areaSize;
-import static com.display.Game.heightPadding;
 
 public class Border implements Thing {
 
-    Collection<PointLocation> borderPoints;
+    private final Collection<PointLocation> borderPoints;
 
     public Border(Graphics aGraphics) {
         borderPoints = new ArrayList<>();

@@ -6,6 +6,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferStrategy;
 
+import static com.display.Game.areaSize;
+
 /**
  * @author KS70326
  */
@@ -15,7 +17,7 @@ public class GameFrame extends Frame {
 
     public GameFrame(Game aGame) {
 
-        setSize(530, 600);
+        setSize(areaSize * 10 + 30, areaSize * 10 + 100);
         setVisible(true);
 
         addWindowListener(new CloseWindowAdapter());

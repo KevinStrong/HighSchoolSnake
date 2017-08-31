@@ -2,6 +2,8 @@ package com.display;
 
 import java.awt.*;
 
+import static com.display.Game.areaSize;
+
 public class ScoreBoard {
 
     private int previousScore;
@@ -14,9 +16,11 @@ public class ScoreBoard {
 
     public void drawScore(Graphics g) {
         g.setColor(Color.white);
-        g.drawString("currentScore:" + getPreviousScore(), 400, 575);
+        int horizontalLocation = areaSize * 10 - 100;
+        int verticalLocation = areaSize * 10 + 75;
+        g.drawString("currentScore:" + getPreviousScore(), horizontalLocation, verticalLocation);
         g.setColor(Color.black);
-        g.drawString("currentScore:" + getCurrentScore(), 400, 575);
+        g.drawString("currentScore:" + getCurrentScore(), horizontalLocation, verticalLocation);
     }
 
     public int getCurrentScore() {

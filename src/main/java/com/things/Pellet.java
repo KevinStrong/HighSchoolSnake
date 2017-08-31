@@ -11,7 +11,7 @@ import static com.display.Game.areaSize;
 
 public class Pellet implements Thing {
 
-    private PointLocation pelletLocation;
+    private final PointLocation pelletLocation;
     private static Random generator = new Random();
 
     public Pellet() {

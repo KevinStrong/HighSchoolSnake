@@ -13,7 +13,6 @@ import java.util.Collections;
 public class Game {
 
     public static final int areaSize = 50;
-    public static final int heightPadding = 2;
     private static long timeOfLastSleep;
     private Border border;
     private Pellet currentPellet;
